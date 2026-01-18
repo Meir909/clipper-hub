@@ -1,0 +1,43 @@
+{% set title = title or 'Clipper Mini App' %}
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body { background: #f4efe9; }
+        .mini-wrapper { padding: 1rem; }
+        .mini-header { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 1rem; }
+        .mini-content { max-width: 100%; }
+        .mini-footer { margin-top: 2rem; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    </style>
+</head>
+<body>
+    <div class="mini-wrapper">
+        <header class="mini-header">{{ title }}</header>
+        <main class="mini-content">
+            {% include 'partials/flash.html' %}
+            {% block content %}{% endblock %}
+        </main>
+        <footer class="mini-footer">© 2026 Clipper HQ — Mini App</footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script>
+        if (window.Telegram && Telegram.WebApp) {
+            Telegram.WebApp.ready();
+            Telegram.WebApp.expand();
+            Telegram.WebApp.setHeaderColor('#f4efe9');
+            Telegram.WebApp.setBackgroundColor('#f4efe9');
+        }
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

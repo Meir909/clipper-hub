@@ -54,3 +54,9 @@ def index():
         )
 
     return render_template("dashboard/index.html", **context)
+
+
+@dashboard_bp.route("/mini")
+@login_required
+def mini():
+    return render_template("dashboard/mini.html")

@@ -1,0 +1,36 @@
+{% extends 'layouts/mini.html' %}
+{% set page_title = 'Mini Dashboard' %}
+{% block content %}
+<div class="text-center mb-4">
+    <h2>👋 Hi, {{ current_user.display_name or current_user.email }}</h2>
+    <p class="text-muted">Your Clipper dashboard</p>
+</div>
+
+<div class="card-gleam mb-4">
+    <h5>Balance</h5>
+    <h4>€{{ "%.2f"|format(current_user.balance_cents / 100) }}</h4>
+</div>
+
+<div class="card-gleam mb-4">
+    <h5>Total Earned</h5>
+    <h4>€{{ "%.2f"|format(current_user.total_earned_cents / 100) }}</h4>
+</div>
+
+{% if current_user.role.value == 'clipper' %}
+<div class="card-gleam">
+    <h5>Today’s Submissions</h5>
+    <h4>{{ today_submissions or 0 }}</h4>
+</div>
+{% endif %}
+
+{% if latest_projects %}
+<div class="mt-4">
+    <h5>Open Projects</h5>
+    <div class="list-group">
+        {% for p in latest_projects %}
+        <a href="#" class="list-group-item list-group-item-action">{{ p.title }}</a>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

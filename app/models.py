@@ -57,6 +57,7 @@ class User(UserMixin, db.Model):
     password_hash: Mapped[str] = mapped_column(db.String(255), nullable=False)
     role: Mapped[Role] = mapped_column(SAEnum(Role), default=Role.CLIPPER, nullable=False)
     display_name: Mapped[str | None] = mapped_column(db.String(120))
+    telegram_id: Mapped[str | None] = mapped_column(db.String(120), unique=True)
     balance_cents: Mapped[int] = mapped_column(default=0)
     total_earned_cents: Mapped[int] = mapped_column(default=0)
     is_active: Mapped[bool] = mapped_column(default=True)

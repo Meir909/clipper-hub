@@ -78,6 +78,31 @@ body {
     background: rgba(18, 19, 23, 0.92);
     color: white;
     padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    .app-shell {
+        flex-direction: column;
+    }
+    .app-sidebar {
+        width: 100%;
+        padding: 1rem;
+        order: 2;
+    }
+    .app-main {
+        order: 1;
+    }
+    .app-topbar {
+        padding: 1rem;
+    }
+    .app-content {
+        padding: 1rem;
+    }
+}
+
+.app-sidebar {
     position: sticky;
     top: 0;
     min-height: 100vh;
@@ -136,9 +161,22 @@ body {
     box-shadow: 0 0 12px rgba(255, 159, 127, 0.9);
 }
 
-.password-field .toggle-visibility {
+.password-field {
+    position: relative;
+}
+
+.password-field__input {
+    position: relative;
+}
+
+.password-field__input .form-control {
+    padding-right: 3rem;
+}
+
+.password-field__input .toggle-visibility {
     position: absolute;
     top: 50%;
+    bottom: auto;
     right: 10px;
     transform: translateY(-50%);
     width: 36px;
@@ -237,6 +275,22 @@ body {
     padding: 0 3rem 3rem;
 }
 
+@media (max-width: 768px) {
+    .app-content {
+        padding: 0 1rem 2rem;
+    }
+    .card-gleam {
+        padding: 1.5rem;
+    }
+    .btn-primary {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.95rem;
+    }
+    .page-title {
+        font-size: 1.6rem;
+    }
+}
+
 .card-gleam {
     background: var(--bg-card);
     border-radius: var(--radius-xl);
@@ -320,6 +374,18 @@ body {
     border-radius: var(--radius-xl);
     box-shadow: 0 30px 60px rgba(20, 20, 20, 0.08);
     background: var(--bg-card);
+}
+
+@media (max-width: 768px) {
+    .auth-card {
+        width: 100%;
+        margin: 1rem;
+        padding: 1.8rem;
+    }
+    .auth-wrapper {
+        min-height: auto;
+        padding: 2rem 0;
+    }
 }
 
 .auth-card h2 {
