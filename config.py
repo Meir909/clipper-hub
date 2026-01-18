@@ -20,3 +20,7 @@ class Config:
         for email in os.environ.get("ADMIN_EMAILS", "admin@clipper.io").split(",")
         if email.strip()
     }
+    
+    # Production settings
+    DEBUG = os.environ.get("FLASK_DEBUG", "False").lower() == "true"
+    TESTING = False

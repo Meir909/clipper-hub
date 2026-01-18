@@ -1,4 +1,5 @@
 from flask import Flask
+import logging
 from config import Config
 from .extensions import db, login_manager, bcrypt, csrf
 from .utils import register_template_utils
@@ -8,6 +9,11 @@ from .models import User
 def create_app(config_class: type[Config] = Config) -> Flask:
     app = Flask(__name__)
     app.config.from_object(config_class)
+    
+    # Configure logging
+    if not app.debug:
+        logging.basicConfig(level=logging.INFO)
+        logging.getLogger('werkzeug').setLevel(logging.INFO)
 
     register_extensions(app)
     register_blueprints(app)
@@ -15,7 +21,23 @@ def create_app(config_class: type[Config] = Config) -> Flask:
     register_template_utils(app)
 
     with app.app_context():
-        db.create_all()
+        try:
+            db.create_all()
+            # Check if telegram_id column exists, add if missing
+            from sqlalchemy import text
+            inspector = db.inspect(db.engine)
+            columns = [col['name'] for col in inspector.get_columns('users')]
+            
+            if 'telegram_id' not in columns:
+                app.logger.info("Adding telegram_id column to users table")
+                db.session.execute(text("ALTER TABLE users ADD COLUMN telegram_id VARCHAR(255)"))
+                db.session.commit()
+                
+        except Exception as e:
+            app.logger.error(f"Database error: {e}")
+            # Don't raise on production to allow app to start
+            if app.config.get('DEBUG'):
+                raise
 
     return app
 
