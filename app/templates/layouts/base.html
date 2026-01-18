@@ -19,7 +19,12 @@
     </div>
     <div class="app-shell d-flex">
         {% if current_user.is_authenticated %}
-        <aside class="app-sidebar">
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M3 6h18M3 18h18"/>
+            </svg>
+        </button>
+        <aside class="app-sidebar" id="appSidebar">
             <div class="brand">
                 <div class="spark"></div>
                 <span>Clipper HQ</span>
@@ -94,6 +99,35 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     <script>
+        // Mobile navigation toggle
+        document.getElementById('mobileNavToggle')?.addEventListener('click', function() {
+            const sidebar = document.getElementById('appSidebar');
+            sidebar.classList.toggle('mobile-open');
+        });
+
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('appSidebar');
+            const toggle = document.getElementById('mobileNavToggle');
+            if (sidebar && toggle && !sidebar.contains(e.target) && !toggle.contains(e.target)) {
+                sidebar.classList.remove('mobile-open');
+            }
+        });
+
+        // Close mobile nav when clicking on navigation links
+        document.querySelectorAll('.app-sidebar .nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const sidebar = document.getElementById('appSidebar');
+                if (sidebar && window.innerWidth <= 992) {
+                    // Don't prevent default - allow navigation
+                    // Close menu after navigation starts
+                    setTimeout(() => {
+                        sidebar.classList.remove('mobile-open');
+                    }, 100);
+                }
+            });
+        });
+
         if (window.Telegram && Telegram.WebApp) {
             Telegram.WebApp.ready();
             Telegram.WebApp.expand();

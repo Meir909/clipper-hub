@@ -1,9 +1,9 @@
 {% extends 'layouts/base.html' %}
 {% set page_title = 'Projects' %}
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h4>Campaigns</h4>
-    <a class="btn btn-primary" href="{{ url_for('admin.create_project') }}">New project</a>
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3 gap-2">
+    <h4 class="mb-0">Campaigns</h4>
+    <a class="btn btn-primary flex-shrink-0" href="{{ url_for('admin.create_project') }}">New project</a>
 </div>
 <div class="card-gleam">
     <div class="table-responsive">
@@ -25,11 +25,13 @@
                     <td>{{ project.manager.display_name if project.manager else '—' }}</td>
                     <td>{{ project.created_at.strftime('%d %b %Y') }}</td>
                     <td class="text-end">
-                        <a class="btn btn-sm btn-outline-dark" href="{{ url_for('admin.edit_project', project_id=project.id) }}">Edit</a>
-                        <form class="d-inline" method="post" action="{{ url_for('admin.delete_project', project_id=project.id) }}" onsubmit="return confirm('Delete project?');">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                            <button class="btn btn-sm btn-outline-danger">Delete</button>
-                        </form>
+                        <div class="d-flex flex-column flex-sm-row gap-1">
+                            <a class="btn btn-sm btn-outline-dark" href="{{ url_for('admin.edit_project', project_id=project.id) }}">Edit</a>
+                            <form class="d-inline" method="post" action="{{ url_for('admin.delete_project', project_id=project.id) }}" onsubmit="return confirm('Delete project?');">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 {% else %}

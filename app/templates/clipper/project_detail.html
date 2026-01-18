@@ -1,15 +1,15 @@
 {% extends 'layouts/base.html' %}
 {% set page_title = project.title %}
 {% block content %}
-<div class="row g-4">
-    <div class="col-lg-8">
+<div class="row g-3 g-lg-4">
+    <div class="col-lg-8 col-xl-7">
         <div class="card-gleam">
-            <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 gap-2">
                 <div>
                     <h3>{{ project.title }}</h3>
                     <p class="text-muted mb-0">{{ project.payment_type.value.replace('_', ' ') }} · KPI {{ project.kpi_views or 'n/a' }} views</p>
                 </div>
-                <a class="btn btn-outline-dark" href="{{ url_for('clipper.submit_video', project_id=project.id) }}">Submit video</a>
+                <a class="btn btn-outline-dark flex-shrink-0" href="{{ url_for('clipper.submit_video', project_id=project.id) }}">Submit video</a>
             </div>
             <p>{{ project.description }}</p>
             <div class="glass-panel p-3 mb-3">
@@ -23,7 +23,7 @@
             {% endif %}
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-4 col-xl-5">
         <div class="card-gleam mb-3">
             <h5>Key data</h5>
             <ul class="list-unstyled">
