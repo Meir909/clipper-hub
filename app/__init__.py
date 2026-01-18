@@ -23,15 +23,7 @@ def create_app(config_class: type[Config] = Config) -> Flask:
     with app.app_context():
         try:
             db.create_all()
-            # Check if telegram_id column exists, add if missing
-            from sqlalchemy import text
-            inspector = db.inspect(db.engine)
-            columns = [col['name'] for col in inspector.get_columns('users')]
-            
-            if 'telegram_id' not in columns:
-                app.logger.info("Adding telegram_id column to users table")
-                db.session.execute(text("ALTER TABLE users ADD COLUMN telegram_id VARCHAR(255)"))
-                db.session.commit()
+            app.logger.info("Database tables created/verified successfully")
                 
         except Exception as e:
             app.logger.error(f"Database error: {e}")
