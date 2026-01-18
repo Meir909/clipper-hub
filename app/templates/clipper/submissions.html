@@ -1,0 +1,43 @@
+{% extends 'layouts/base.html' %}
+{% set page_title = 'My submissions' %}
+{% block content %}
+<div class="card-gleam">
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Link</th>
+                    <th>Status</th>
+                    <th>Views</th>
+                    <th>Reward</th>
+                    <th>Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for submission in submissions %}
+                <tr>
+                    <td>{{ submission.project.title }}</td>
+                    <td><a href="{{ submission.video_url }}" target="_blank">Open ↗</a></td>
+                    <td>
+                        <span class="badge {{ submission.status.value|status_class }}">
+                            {{ submission.status.value|title }}
+                        </span>
+                        {% if submission.status == submission.status.REJECTED and submission.reject_reason %}
+                        <div class="small text-muted">{{ submission.reject_reason }}</div>
+                        {% endif %}
+                    </td>
+                    <td>{{ submission.views or '—' }}</td>
+                    <td>{{ submission.reward_cents|euro }}</td>
+                    <td>{{ submission.updated_at.strftime('%d %b %H:%M') }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No submissions yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

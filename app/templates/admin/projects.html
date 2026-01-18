@@ -1,0 +1,44 @@
+{% extends 'layouts/base.html' %}
+{% set page_title = 'Projects' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>Campaigns</h4>
+    <a class="btn btn-primary" href="{{ url_for('admin.create_project') }}">New project</a>
+</div>
+<div class="card-gleam">
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Payment type</th>
+                    <th>Manager</th>
+                    <th>Created</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in projects %}
+                <tr>
+                    <td>{{ project.title }}</td>
+                    <td>{{ project.payment_type.value.replace('_',' ') }}</td>
+                    <td>{{ project.manager.display_name if project.manager else '—' }}</td>
+                    <td>{{ project.created_at.strftime('%d %b %Y') }}</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-dark" href="{{ url_for('admin.edit_project', project_id=project.id) }}">Edit</a>
+                        <form class="d-inline" method="post" action="{{ url_for('admin.delete_project', project_id=project.id) }}" onsubmit="return confirm('Delete project?');">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted">No projects yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

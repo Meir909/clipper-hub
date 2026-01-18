@@ -1,0 +1,20 @@
+{% extends 'layouts/base.html' %}
+{% set page_title = 'Submit video' %}
+{% block content %}
+<div class="card-gleam">
+    <h3 class="mb-3">{{ project.title }}</h3>
+    <p class="text-muted">Share your link once the video is live.</p>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.video_url.label(class='form-label') }}
+            {{ form.video_url(class='form-control form-control-lg') }}
+        </div>
+        <div class="mb-3">
+            {{ form.platform.label(class='form-label') }}
+            {{ form.platform(class='form-select form-select-lg') }}
+        </div>
+        {{ form.submit(class='btn btn-primary btn-lg') }}
+    </form>
+</div>
+{% endblock %}

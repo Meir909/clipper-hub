@@ -1,0 +1,30 @@
+{% extends 'layouts/base.html' %}
+{% set page_title = 'Open projects' %}
+{% block content %}
+<div class="row g-4">
+    {% for project in projects %}
+        <div class="col-lg-4 col-md-6">
+            <div class="project-card h-100 d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="mb-0">{{ project.title }}</h5>
+                    <span class="badge rounded-pill bg-dark text-uppercase">{{ project.payment_type.value.replace('_', ' ') }}</span>
+                </div>
+                <p class="text-muted flex-grow-1">{{ project.description[:160] }}{% if project.description|length > 160 %}…{% endif %}</p>
+                <div class="small text-muted mb-2">
+                    KPI: {{ project.kpi_views or '—' }} views · Limit: {{ project.submission_limit_per_user or '∞' }}
+                </div>
+                <a class="btn btn-outline-dark btn-sm mt-auto" href="{{ url_for('clipper.project_detail', project_id=project.id) }}">
+                    View brief
+                </a>
+            </div>
+        </div>
+    {% else %}
+        <div class="col-12">
+            <div class="card-gleam">
+                <h4>No campaigns right now</h4>
+                <p class="text-muted">We are prepping new briefs. Keep an eye on your inbox.</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'layouts/base.html' %}
+{% set page_title = 'Payout requests' %}
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card-gleam">
+            <h5 class="mb-3">Pending</h5>
+            {% if pending %}
+                <div class="list-group list-group-flush">
+                    {% for payout in pending %}
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ payout.user.display_name or payout.user.email }}</strong>
+                                <div class="small text-muted">{{ payout.amount_cents|euro }} · {{ payout.method|title }}</div>
+                                <div class="small text-muted">{{ payout.details }}</div>
+                            </div>
+                            <form method="post" action="{{ url_for('admin.confirm_payout', payout_id=payout.id) }}">
+                                {{ form.hidden_tag() }}
+                                {{ form.submit(class='btn btn-sm btn-primary', value='Confirm paid') }}
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted">No pending payouts.</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card-gleam">
+            <h5 class="mb-3">Recently processed</h5>
+            <div class="list-group list-group-flush">
+                {% for payout in completed %}
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ payout.user.display_name or payout.user.email }}</strong>
+                            <div class="small text-muted">{{ payout.amount_cents|euro }} · {{ payout.status.value|title }}</div>
+                        </div>
+                        <span class="badge {{ payout.status.value|status_class }}">{{ payout.status.value|title }}</span>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-muted">No payouts processed yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

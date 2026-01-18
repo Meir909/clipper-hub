@@ -1,0 +1,38 @@
+{% extends 'layouts/base.html' %}
+{% set page_title = project.title %}
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card-gleam">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h3>{{ project.title }}</h3>
+                    <p class="text-muted mb-0">{{ project.payment_type.value.replace('_', ' ') }} · KPI {{ project.kpi_views or 'n/a' }} views</p>
+                </div>
+                <a class="btn btn-outline-dark" href="{{ url_for('clipper.submit_video', project_id=project.id) }}">Submit video</a>
+            </div>
+            <p>{{ project.description }}</p>
+            <div class="glass-panel p-3 mb-3">
+                <strong>Earning conditions</strong>
+                <p class="mb-0">{{ project.earning_conditions }}</p>
+            </div>
+            {% if project.instruction_url %}
+            <a class="btn btn-link" target="_blank" rel="noopener" href="{{ project.instruction_url }}">
+                Open instructions ↗
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card-gleam mb-3">
+            <h5>Key data</h5>
+            <ul class="list-unstyled">
+                <li><strong>Payment:</strong> {{ project.payment_type.value.replace('_', ' ') }}</li>
+                <li><strong>Rate/view:</strong> {{ project.rate_per_view_cents or 0 }} cents</li>
+                <li><strong>Fixed reward:</strong> {{ project.fixed_reward_cents|default(0)|int / 100 }} €</li>
+                <li><strong>Submission limit:</strong> {{ project.submission_limit_per_user or 'Unlimited' }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

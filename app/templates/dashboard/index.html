@@ -1,0 +1,102 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+<div class="stat-grid mb-4">
+    {% if role == 'admin' %}
+        <div class="stat-card">
+            <small>Total projects</small>
+            <strong>{{ total_projects }}</strong>
+        </div>
+        <div class="stat-card">
+            <small>Active clippers</small>
+            <strong>{{ total_clippers }}</strong>
+        </div>
+        <div class="stat-card">
+            <small>Pending payouts</small>
+            <strong>{{ pending_payouts }}</strong>
+        </div>
+    {% elif role == 'manager' %}
+        <div class="stat-card">
+            <small>Pending reviews</small>
+            <strong>{{ pending_submissions|length }}</strong>
+        </div>
+    {% else %}
+    <div class="hero-panel mb-4">
+        <div>
+            <p class="eyebrow">Creator Hub · DACH</p>
+            <h2>Ready for your next viral cut?</h2>
+            <p class="text-muted">Track briefs, submit edits and cash out manual payouts — all in one Swiss-grade dashboard.</p>
+            <div class="d-flex gap-3 flex-wrap">
+                <a class="btn btn-primary" href="{{ url_for('clipper.projects') }}">Explore briefs</a>
+                <div class="d-flex align-items-center gap-2 text-muted">
+                    <span class="pulse-dot"></span>
+                    <span>Daily submissions: {{ today_submissions }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-pill">
+            <p class="text-uppercase small text-muted mb-1">Balance</p>
+            <div class="display-6">{{ current_user.balance_cents|euro }}</div>
+            <p class="small text-muted">Total earned: {{ current_user.total_earned_cents|euro }}</p>
+        </div>
+    </div>
+        <div class="stat-card">
+            <small>Balance</small>
+            <strong>{{ current_user.balance_cents|euro }}</strong>
+        </div>
+        <div class="stat-card">
+            <small>Today submissions</small>
+            <strong>{{ today_submissions }}</strong>
+        </div>
+    {% endif %}
+</div>
+
+{% if role == 'admin' %}
+    <div class="card-gleam mb-4">
+        <h4>Snapshot</h4>
+        <p class="text-muted">Track platform health and manually approve payouts.</p>
+        <a class="btn btn-primary" href="{{ url_for('admin.payouts') }}">Review payouts</a>
+    </div>
+{% elif role == 'manager' %}
+    <div class="card-gleam">
+        <h4>Pending submissions</h4>
+        {% if pending_submissions %}
+            <div class="list-group list-group-flush">
+                {% for sub in pending_submissions %}
+                <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{{ url_for('manager.review_submission', submission_id=sub.id) }}">
+                    <div>
+                        <strong>{{ sub.project.title }}</strong>
+                        <div class="small text-muted">{{ sub.video_url }}</div>
+                    </div>
+                    <span class="badge rounded-pill bg-dark">Review</span>
+                </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-muted">No pending submissions. Enjoy a coffee ☕</p>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="card-gleam mb-4">
+        <h4>Fresh briefs</h4>
+        <p class="text-muted">Hand-picked campaigns for the DACH creators.</p>
+        <div class="row g-3">
+            {% for project in latest_projects %}
+                <div class="col-md-6">
+                    <div class="project-card h-100">
+                        <div class="d-flex justify-content-between mb-2">
+                            <h5>{{ project.title }}</h5>
+                            <span class="badge rounded-pill bg-dark">{{ project.payment_type.replace('_', ' ') }}</span>
+                        </div>
+                        <p class="text-muted">{{ project.description[:120] }}{% if project.description|length > 120 %}…{% endif %}</p>
+                        <a href="{{ url_for('clipper.project_detail', project_id=project.id) }}" class="btn btn-outline-dark btn-sm">View brief</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <p class="text-muted">No projects available right now.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

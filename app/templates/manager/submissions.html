@@ -1,0 +1,47 @@
+{% extends 'layouts/base.html' %}
+{% set page_title = project.title + ' submissions' %}
+{% block content %}
+<div class="card-gleam">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h4>{{ project.title }}</h4>
+            <p class="text-muted mb-0">{{ project.payment_type.value.replace('_', ' ') }}</p>
+        </div>
+        <a class="btn btn-outline-dark" href="{{ url_for('manager.managed_projects') }}">Back</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Clipper</th>
+                    <th>Link</th>
+                    <th>Status</th>
+                    <th>Views</th>
+                    <th>Reward</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for submission in submissions %}
+                <tr>
+                    <td>{{ submission.clipper.display_name or submission.clipper.email }}</td>
+                    <td><a href="{{ submission.video_url }}" target="_blank">Open ↗</a></td>
+                    <td>
+                        <span class="badge {{ submission.status.value|status_class }}">{{ submission.status.value|title }}</span>
+                    </td>
+                    <td>{{ submission.views or '—' }}</td>
+                    <td>{{ submission.reward_cents|euro }}</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-dark" href="{{ url_for('manager.review_submission', submission_id=submission.id) }}">Review</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No submissions yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

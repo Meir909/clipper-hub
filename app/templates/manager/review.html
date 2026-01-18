@@ -1,0 +1,37 @@
+{% extends 'layouts/base.html' %}
+{% set page_title = 'Review submission #' ~ submission.id %}
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card-gleam">
+            <h4>{{ submission.project.title }}</h4>
+            <p class="text-muted">Clipper: {{ submission.clipper.display_name or submission.clipper.email }}</p>
+            <p>
+                Video link: <a href="{{ submission.video_url }}" target="_blank">Open in new tab ↗</a><br>
+                Status: <span class="badge {{ submission.status.value|status_class }}">{{ submission.status.value|title }}</span>
+            </p>
+            <p class="text-muted">Platform: {{ submission.platform.value|title }}</p>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card-gleam">
+            <form method="post">
+                {{ form.hidden_tag() }}
+                <div class="mb-3">
+                    {{ form.views.label(class='form-label') }}
+                    {{ form.views(class='form-control form-control-lg') }}
+                </div>
+                <div class="mb-3">
+                    {{ form.status.label(class='form-label') }}
+                    {{ form.status(class='form-select form-select-lg') }}
+                </div>
+                <div class="mb-3">
+                    {{ form.reject_reason.label(class='form-label') }}
+                    {{ form.reject_reason(class='form-control form-control-lg') }}
+                </div>
+                {{ form.submit(class='btn btn-primary btn-lg w-100') }}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
