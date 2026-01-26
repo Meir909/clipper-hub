@@ -39,16 +39,29 @@
             <p class="small text-muted">Total earned: {{ current_user.total_earned_cents|euro }}</p>
         </div>
     </div>
-        <div class="stat-card">
-            <small>Balance</small>
-            <strong>{{ current_user.balance_cents|euro }}</strong>
+    <div class="card-gleam mb-4">
+        <h4>Fresh briefs</h4>
+        <p class="text-muted">Hand-picked campaigns for the DACH creators.</p>
+        <div class="row g-3">
+            {% for project in latest_projects %}
+                <div class="col-md-6">
+                    <div class="project-card h-100">
+                        <div class="d-flex justify-content-between mb-2">
+                            <h5>{{ project.title }}</h5>
+                            <span class="badge rounded-pill bg-dark">{{ project.payment_type.replace('_', ' ') }}</span>
+                        </div>
+                        <p class="text-muted">{{ project.description[:120] }}{% if project.description|length > 120 %}…{% endif %}</p>
+                        <a href="{{ url_for('clipper.project_detail', project_id=project.id) }}" class="btn btn-outline-dark btn-sm">View brief</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <p class="text-muted">No projects available right now.</p>
+                </div>
+            {% endfor %}
         </div>
-        <div class="stat-card">
-            <small>Today submissions</small>
-            <strong>{{ today_submissions }}</strong>
-        </div>
-    {% endif %}
-</div>
+    </div>
+{% endif %}
 
 {% if role == 'admin' %}
     <div class="card-gleam mb-4">
@@ -74,29 +87,6 @@
         {% else %}
             <p class="text-muted">No pending submissions. Enjoy a coffee ☕</p>
         {% endif %}
-    </div>
-{% else %}
-    <div class="card-gleam mb-4">
-        <h4>Fresh briefs</h4>
-        <p class="text-muted">Hand-picked campaigns for the DACH creators.</p>
-        <div class="row g-3">
-            {% for project in latest_projects %}
-                <div class="col-md-6">
-                    <div class="project-card h-100">
-                        <div class="d-flex justify-content-between mb-2">
-                            <h5>{{ project.title }}</h5>
-                            <span class="badge rounded-pill bg-dark">{{ project.payment_type.replace('_', ' ') }}</span>
-                        </div>
-                        <p class="text-muted">{{ project.description[:120] }}{% if project.description|length > 120 %}…{% endif %}</p>
-                        <a href="{{ url_for('clipper.project_detail', project_id=project.id) }}" class="btn btn-outline-dark btn-sm">View brief</a>
-                    </div>
-                </div>
-            {% else %}
-                <div class="col-12">
-                    <p class="text-muted">No projects available right now.</p>
-                </div>
-            {% endfor %}
-        </div>
     </div>
 {% endif %}
 {% endblock %}

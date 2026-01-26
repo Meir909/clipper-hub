@@ -12,6 +12,64 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <style>
+    /* Sidebar collapse styles */
+    .sidebar-toggle {
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.75);
+        cursor: pointer;
+        padding: 0.25rem;
+        margin-right: 0.5rem;
+        border-radius: 0.25rem;
+        transition: all 0.2s ease;
+    }
+    
+    .sidebar-toggle:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .app-sidebar.collapsed {
+        width: 60px !important;
+    }
+    
+    .app-sidebar.collapsed .brand-text {
+        display: none;
+    }
+    
+    .app-sidebar.collapsed .nav-link span {
+        display: none;
+    }
+    
+    .app-sidebar.collapsed .nav-link {
+        justify-content: center;
+        padding: 0.7rem 0;
+    }
+    
+    .app-sidebar.collapsed .nav-link.active::before {
+        display: none;
+    }
+    
+    .app-sidebar.collapsed .spark {
+        margin: 0 auto;
+    }
+    
+    .app-sidebar.collapsed .brand {
+        justify-content: center;
+        padding: 1rem 0;
+    }
+    
+    .sidebar-collapsed .app-main {
+        margin-left: 60px !important;
+    }
+    
+    @media (max-width: 992px) {
+        .sidebar-toggle {
+            display: none;
+        }
+    }
+    </style>
     <div class="bg-constellation">
         <div class="orb orb-one"></div>
         <div class="orb orb-two"></div>
@@ -26,8 +84,13 @@
         </button>
         <aside class="app-sidebar" id="appSidebar">
             <div class="brand">
+                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12h18M3 6h18M3 18h18"/>
+                    </svg>
+                </button>
                 <div class="spark"></div>
-                <span>Clipper HQ</span>
+                <span class="brand-text">Clipper HQ</span>
             </div>
             <nav class="nav flex-column">
                 {% set role_value = current_user.role.value %}
@@ -105,6 +168,14 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     <script>
+        // Desktop sidebar toggle
+        document.getElementById('sidebarToggle')?.addEventListener('click', function() {
+            const sidebar = document.getElementById('appSidebar');
+            const appShell = document.querySelector('.app-shell');
+            sidebar.classList.toggle('collapsed');
+            appShell.classList.toggle('sidebar-collapsed');
+        });
+
         // Mobile navigation toggle
         document.getElementById('mobileNavToggle')?.addEventListener('click', function() {
             const sidebar = document.getElementById('appSidebar');
