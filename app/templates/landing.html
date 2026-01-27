@@ -1,186 +1,730 @@
 {% extends 'layouts/base.html' %}
-{% set page_title = 'Clipper Affiliate Hub' %}
+{% set page_title = 'Clipper - Content Creator Platform' %}
 {% block content %}
-<section class="landing-hero reveal">
-    <div class="halo"></div>
-    <div class="grid-accent"></div>
-    <div class="landing-copy">
-        <p class="eyebrow text-white">Clipper Collective · DACH Market</p>
-        <h1>Turn short clips into steady income.</h1>
-        <p class="lead">Access curated TikTok/Instagram briefs for premium brands, submit edits, and cash out manual payouts with a human reviewer on the other side.</p>
-        <div class="badge-chips">
-            <span class="badge-chip">TikTok native</span>
-            <span class="badge-chip">Manual QC</span>
-            <span class="badge-chip">Swiss-founded</span>
-            <span class="badge-chip">24h feedback</span>
-        </div>
-        <div class="d-flex gap-3 flex-wrap">
-            <a class="btn btn-primary btn-lg" href="{{ url_for('auth.register') }}">Become a Clipper</a>
-            <a class="btn btn-outline-light btn-lg" href="{{ url_for('auth.login') }}">Sign in</a>
-        </div>
-        <div class="hero-footnotes">
-            <div class="footnote-card">
-                <small>MANUAL REVIEWS</small>
-                <strong>100%</strong>
-                <span>Every submission handled by a human manager.</span>
+
+<!-- Hero Section -->
+<section class="hero-section reveal">
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6">
+                <div class="hero-content">
+                    <div class="badge-chip mb-3">DACH Market · Creator Platform</div>
+                    <h1 class="hero-title">Transform your creativity into consistent income</h1>
+                    <p class="hero-subtitle">Access premium TikTok and Instagram campaigns from top European brands. Submit your edits, get human reviews, and receive reliable payouts.</p>
+                    <div class="hero-stats mb-4">
+                        <div class="stat-item">
+                            <strong>€185</strong>
+                            <span>Avg. per clip</span>
+                        </div>
+                        <div class="stat-item">
+                            <strong>&lt;24h</strong>
+                            <span>Review time</span>
+                        </div>
+                        <div class="stat-item">
+                            <strong>100%</strong>
+                            <span>Manual review</span>
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg me-3">Become a Creator</a>
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-lg">Sign In</a>
+                    </div>
+                </div>
             </div>
-            <div class="footnote-card">
-                <small>SUCCESS RATE</small>
-                <strong>92%</strong>
-                <span>Clippers who completed at least 3 briefs.</span>
+            <div class="col-lg-6">
+                <div class="hero-visual">
+                    <div class="floating-cards">
+                        <div class="floating-card card-1">
+                            <div class="card-icon">📱</div>
+                            <strong>TikTok Native</strong>
+                        </div>
+                        <div class="floating-card card-2">
+                            <div class="card-icon">💰</div>
+                            <strong>€20+ Payouts</strong>
+                        </div>
+                        <div class="floating-card card-3">
+                            <div class="card-icon">⚡</div>
+                            <strong>24h Feedback</strong>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="footnote-card">
-                <small>PAYOUT SPEED</small>
-                <strong>18h</strong>
-                <span>Median time from approval to transfer.</span>
-            </div>
-        </div>
-        <div class="metrics-strip">
-            <div class="metric">
-                <small>Active briefs</small>
-                <strong>32</strong>
-            </div>
-            <div class="metric">
-                <small>Avg. payout</small>
-                <strong>€185</strong>
-            </div>
-            <div class="metric">
-                <small>Review time</small>
-                <strong>&lt; 24h</strong>
-            </div>
-        </div>
-    </div>
-    <div class="landing-showcase">
-        <div class="orbit-ring"></div>
-        <div class="kinetic-orb"></div>
-        <div class="stats-pill glass-panel">
-            <p class="text-uppercase small text-muted">Current brief</p>
-            <h3>Swiss Fintech Launch</h3>
-            <p class="text-muted">€20 per approved clip · KPI 800 views</p>
-            <span class="badge rounded-pill bg-dark">TikTok · Instagram</span>
         </div>
     </div>
 </section>
 
-<section class="landing-section reveal">
-    <div class="section-header">
-        <h3>Why creators pick Clipper</h3>
-        <div class="brand-list">
-            <span>On</span><span>Swatch</span><span>Red Bull</span><span>Helvetia</span><span>Caran d'Ache</span>
+<!-- How It Works -->
+<section class="how-it-works reveal">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">Start earning in three simple steps</p>
         </div>
-    </div>
-    <div class="landing-grid">
-        <div class="feature-card">
-            <h5>Curated EU briefs</h5>
-            <p>Only premium DACH campaigns with clear deliverables, usage rights, and KPI expectations.</p>
-        </div>
-        <div class="feature-card">
-            <h5>Manual QC & payouts</h5>
-            <p>Each submission is reviewed by a human manager who messages you directly on Telegram/phone.</p>
-        </div>
-        <div class="feature-card">
-            <h5>Creator-friendly limits</h5>
-            <p>Daily submission caps, transparent earnings, and payouts starting at €20.</p>
-        </div>
-        <div class="feature-card">
-            <h5>Analytics snapshots</h5>
-            <p>Track approvals, views, and manual balance adjustments from a minimalist dashboard.</p>
-        </div>
-    </div>
-</section>
-
-<section class="landing-section reveal">
-    <div class="section-header">
-        <h3>Workflow, but handcrafted</h3>
-    </div>
-    <div class="timeline">
-        <div class="timeline-step" data-step="01">
-            <h5>Join the hub</h5>
-            <p>Create a clipper account in seconds and access open briefs immediately.</p>
-        </div>
-        <div class="timeline-step" data-step="02">
-            <h5>Produce & submit</h5>
-            <p>Upload your TikTok/IG Reel link, choose the platform, and watch the live status.</p>
-        </div>
-        <div class="timeline-step" data-step="03">
-            <h5>Manager review</h5>
-            <p>A dedicated manager approves or gives feedback, then triggers a balance update.</p>
-        </div>
-        <div class="timeline-step" data-step="04">
-            <h5>Human payout</h5>
-            <p>Request payout, leave your Telegram/phone, and a real person finalizes the transfer.</p>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <h3>Browse Campaigns</h3>
+                    <p>Access curated briefs from premium DACH brands with clear requirements and KPI expectations.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="step-card">
+                    <div class="step-number">02</div>
+                    <h3>Create & Submit</h3>
+                    <p>Upload your TikTok or Instagram content, choose the platform, and track your submission status in real-time.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="step-card">
+                    <div class="step-number">03</div>
+                    <h3>Get Paid</h3>
+                    <p>Receive human review and feedback within 24 hours. Get approved and cash out via manual payouts.</p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-<section class="landing-section reveal">
-    <div class="section-header">
-        <h3>Creators talking</h3>
-    </div>
-    <div class="testimonial-grid">
-        <div class="testimonial-card">
-            <p>“Finally a platform that doesn’t ghost you. I submitted 2 fintech clips and got paid within 24h after approval.”</p>
-            <strong>Lea · Zurich</strong>
-        </div>
-        <div class="testimonial-card">
-            <p>“Love the transparency. KPIs, payouts, and managers are all in one place, and communication happens in Telegram.”</p>
-            <strong>Markus · Vienna</strong>
-        </div>
-        <div class="testimonial-card">
-            <p>“They keep the brief quality high. No spammy offers, just well written requirements for real brands.”</p>
-            <strong>Klara · Munich</strong>
+<!-- Features -->
+<section class="features-section reveal">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="features-content">
+                    <h2 class="section-title">Why creators choose Clipper</h2>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">🎯</div>
+                            <div>
+                                <h4>Premium DACH Campaigns</h4>
+                                <p>Only high-quality briefs from established European brands with transparent requirements.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">👥</div>
+                            <div>
+                                <h4>Human Review Process</h4>
+                                <p>Every submission reviewed by real managers who provide personalized feedback via Telegram.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">💎</div>
+                            <div>
+                                <h4>Creator-Friendly Terms</h4>
+                                <p>Daily submission limits, transparent earnings, and payouts starting from just €20.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="features-visual">
+                    <div class="platform-preview">
+                        <div class="preview-header">
+                            <div class="preview-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <strong>Creator Dashboard</strong>
+                        </div>
+                        <div class="preview-content">
+                            <div class="preview-line"></div>
+                            <div class="preview-line"></div>
+                            <div class="preview-line"></div>
+                            <div class="preview-line"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-<section class="landing-section case-study reveal">
-    <div class="case-card">
-        <p class="eyebrow">Case study · Luxury Skincare</p>
-        <h4>From storyboard to €3.5k earned in 6 weeks</h4>
-        <p>A Vienna-based duo produced 14 short-form assets with a 92% approval rate thanks to real-time manager feedback.</p>
-        <ul>
-            <li>Avg. 1.3 revisions per clip</li>
-            <li>Telegram calls for launch-day tweaks</li>
-            <li>Manual payouts via SEPA within 18h</li>
-        </ul>
-    </div>
-    <div class="device-preview">
-        <div class="preview-lines">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
+<!-- Pricing -->
+<section class="pricing-section reveal">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Simple, Transparent Pricing</h2>
+            <p class="section-subtitle">No hidden fees. You earn what you create.</p>
+        </div>
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-4">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Starter Creator</h3>
+                        <div class="pricing-price">
+                            <span class="currency">€</span>
+                            <span class="amount">15-50</span>
+                            <span class="period">per clip</span>
+                        </div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li>✓ Basic brand campaigns</li>
+                            <li>✓ 24h review guarantee</li>
+                            <li>✓ Telegram support</li>
+                            <li>✓ Weekly payouts</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-action">
+                        <a href="{{ url_for('auth.register') }}" class="btn btn-outline-primary">Get Started</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Pro Creator</h3>
+                        <div class="pricing-price">
+                            <span class="currency">€</span>
+                            <span class="amount">50-150</span>
+                            <span class="period">per clip</span>
+                        </div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li>✓ Premium brand campaigns</li>
+                            <li>✓ Priority review &lt;12h</li>
+                            <li>✓ Dedicated manager</li>
+                            <li>✓ Daily payouts available</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-action">
+                        <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Go Pro</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Elite Creator</h3>
+                        <div class="pricing-price">
+                            <span class="currency">€</span>
+                            <span class="amount">150-300</span>
+                            <span class="period">per clip</span>
+                        </div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li>✓ Enterprise campaigns</li>
+                            <li>✓ Express review &lt;6h</li>
+                            <li>✓ VIP support channel</li>
+                            <li>✓ Instant payouts</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-action">
+                        <a href="{{ url_for('auth.register') }}" class="btn btn-outline-primary">Apply Now</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-<section class="landing-section reveal">
-    <div class="section-header">
-        <h3>Questions, answered</h3>
-    </div>
-    <div class="faq-list">
-        <details class="faq-item" open>
-            <summary>How do payouts work?</summary>
-            <p>You submit your Telegram/phone contacts. Once a manager approves your clip, they reach out personally to confirm details and send PayPal/bank transfer manually.</p>
-        </details>
-        <details class="faq-item">
-            <summary>Is there a review backlog?</summary>
-            <p>Our average review time is under 24 hours. Managers triage by KPI urgency and send feedback in Telegram if edits are required.</p>
-        </details>
-        <details class="faq-item">
-            <summary>What platforms are supported?</summary>
-            <p>We’re focused on TikTok and Instagram Reels, with Shorts pilots launching soon. Each brief specifies the target channel.</p>
-        </details>
+<!-- Testimonials -->
+<section class="testimonials-section reveal">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Creators Talking</h2>
+            <p class="section-subtitle">Real experiences from our community</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Finally a platform that doesn't ghost you. Submitted 2 fintech clips and got paid within 24h after approval."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <strong>Lea</strong>
+                        <span>Zurich, Switzerland</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Love the transparency. KPIs, payouts, and managers are all in one place, with communication happening in Telegram."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <strong>Markus</strong>
+                        <span>Vienna, Austria</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"They keep the brief quality high. No spammy offers, just well-written requirements for real brands."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <strong>Klara</strong>
+                        <span>Munich, Germany</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
-<section class="cta-banner reveal">
-    <div>
-        <p class="eyebrow text-white">Manual-first affiliate platform</p>
-        <h3>Ready to secure your next brand collab?</h3>
-        <p class="mb-0">Get verified once, submit as many clips as you want, and talk to real managers when it matters.</p>
+<!-- FAQ -->
+<section class="faq-section reveal">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="section-subtitle">Everything you need to know about Clipper</p>
+                </div>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>How do payouts work?</summary>
+                        <p>You submit your Telegram/phone contacts. Once a manager approves your clip, they reach out personally to confirm details and send PayPal/bank transfer manually.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Is there a review backlog?</summary>
+                        <p>Our average review time is under 24 hours. Managers triage by KPI urgency and send feedback in Telegram if edits are required.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>What platforms are supported?</summary>
+                        <p>We currently support TikTok and Instagram Reels. Each brief specifies platform requirements and optimal formats.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>How are earnings calculated?</summary>
+                        <p>Each campaign has a fixed payout per approved clip. Rates typically range from €15-€300 depending on brand and complexity.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Can I work from any country?</summary>
+                        <p>We focus on DACH creators (Germany, Austria, Switzerland) but welcome talented creators from across Europe who understand the market.</p>
+                    </details>
+                </div>
+            </div>
+        </div>
     </div>
-    <a class="btn btn-primary btn-lg" href="{{ url_for('auth.register') }}">Start clipping</a>
 </section>
+
+<!-- CTA -->
+<section class="cta-section reveal">
+    <div class="container">
+        <div class="cta-content text-center">
+            <h2 class="cta-title">Ready to start earning?</h2>
+            <p class="cta-subtitle">Join creators across the DACH region turning their creativity into income</p>
+            <div class="cta-actions">
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg me-3">Get Started Now</a>
+                <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-lg">Sign In</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Hero Section */
+.hero-section {
+    padding: 4rem 0;
+    background: linear-gradient(135deg, var(--gifo-bg-secondary) 0%, var(--gifo-bg-primary) 100%);
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: var(--gifo-text-primary);
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--gifo-text-secondary);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-item strong {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gifo-primary);
+}
+
+.stat-item span {
+    font-size: 0.875rem;
+    color: var(--gifo-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge-chip {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--gifo-gradient-primary);
+    color: white;
+    border-radius: 2rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.floating-cards {
+    position: relative;
+    height: 400px;
+}
+
+.floating-card {
+    position: absolute;
+    background: var(--gifo-bg-primary);
+    border: 1px solid var(--gifo-border-subtle);
+    border-radius: var(--gifo-radius-xl);
+    padding: 1.5rem;
+    box-shadow: var(--gifo-shadow-lg);
+    text-align: center;
+    min-width: 150px;
+    transition: all 0.3s ease;
+}
+
+.floating-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--gifo-shadow-xl);
+}
+
+.card-1 {
+    top: 20%;
+    left: 10%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.card-2 {
+    top: 50%;
+    right: 20%;
+    animation: float 8s ease-in-out infinite 2s;
+}
+
+.card-3 {
+    bottom: 20%;
+    left: 30%;
+    animation: float 7s ease-in-out infinite 1s;
+}
+
+.card-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Sections */
+.how-it-works, .features-section, .pricing-section, .testimonials-section, .faq-section, .cta-section {
+    padding: 5rem 0;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--gifo-text-primary);
+}
+
+.section-subtitle {
+    font-size: 1.125rem;
+    color: var(--gifo-text-secondary);
+    margin-bottom: 3rem;
+}
+
+/* Step Cards */
+.step-card {
+    text-align: center;
+    padding: 2rem;
+    background: var(--gifo-bg-primary);
+    border: 1px solid var(--gifo-border-subtle);
+    border-radius: var(--gifo-radius-xl);
+    box-shadow: var(--gifo-shadow-sm);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--gifo-shadow-lg);
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+    background: var(--gifo-gradient-primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 auto 1.5rem;
+}
+
+.step-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--gifo-text-primary);
+}
+
+/* Features */
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.feature-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.feature-item h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--gifo-text-primary);
+}
+
+.platform-preview {
+    background: var(--gifo-bg-primary);
+    border: 1px solid var(--gifo-border-subtle);
+    border-radius: var(--gifo-radius-xl);
+    overflow: hidden;
+    box-shadow: var(--gifo-shadow-lg);
+}
+
+.preview-header {
+    background: var(--gifo-bg-secondary);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--gifo-border-subtle);
+}
+
+.preview-dots {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.preview-dots span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--gifo-border-medium);
+}
+
+.preview-content {
+    padding: 2rem;
+}
+
+.preview-line {
+    height: 12px;
+    background: var(--gifo-border-subtle);
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.preview-line:nth-child(2) { width: 80%; }
+.preview-line:nth-child(3) { width: 60%; }
+.preview-line:nth-child(4) { width: 90%; }
+
+/* Pricing */
+.pricing-card {
+    background: var(--gifo-bg-primary);
+    border: 1px solid var(--gifo-border-subtle);
+    border-radius: var(--gifo-radius-xl);
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--gifo-shadow-sm);
+    transition: all 0.3s ease;
+    position: relative;
+    height: 100%;
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--gifo-shadow-lg);
+}
+
+.pricing-card.popular {
+    border-color: var(--gifo-primary);
+    box-shadow: var(--gifo-shadow-md);
+}
+
+.popular-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gifo-gradient-primary);
+    color: white;
+    padding: 0.25rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.pricing-price {
+    margin: 1.5rem 0;
+}
+
+.currency {
+    font-size: 1.5rem;
+    color: var(--gifo-text-muted);
+}
+
+.amount {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--gifo-primary);
+}
+
+.period {
+    display: block;
+    color: var(--gifo-text-muted);
+    font-size: 0.875rem;
+}
+
+.pricing-features ul {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+}
+
+.pricing-features li {
+    padding: 0.5rem 0;
+    color: var(--gifo-text-secondary);
+}
+
+/* Testimonials */
+.testimonial-card {
+    background: var(--gifo-bg-primary);
+    border: 1px solid var(--gifo-border-subtle);
+    border-radius: var(--gifo-radius-xl);
+    padding: 2rem;
+    box-shadow: var(--gifo-shadow-sm);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--gifo-shadow-lg);
+}
+
+.testimonial-content {
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    color: var(--gifo-text-secondary);
+    line-height: 1.6;
+}
+
+.testimonial-author strong {
+    display: block;
+    font-weight: 600;
+    color: var(--gifo-text-primary);
+}
+
+.testimonial-author span {
+    font-size: 0.875rem;
+    color: var(--gifo-text-muted);
+}
+
+/* FAQ */
+.faq-item {
+    background: var(--gifo-bg-primary);
+    border: 1px solid var(--gifo-border-subtle);
+    border-radius: var(--gifo-radius-lg);
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.faq-item summary {
+    padding: 1.5rem;
+    font-weight: 600;
+    color: var(--gifo-text-primary);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.faq-item summary:hover {
+    background: var(--gifo-bg-secondary);
+}
+
+.faq-item p {
+    padding: 0 1.5rem 1.5rem;
+    color: var(--gifo-text-secondary);
+    line-height: 1.6;
+}
+
+/* CTA */
+.cta-section {
+    background: var(--gifo-gradient-secondary);
+    text-align: center;
+}
+
+.cta-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--gifo-text-primary);
+}
+
+.cta-subtitle {
+    font-size: 1.125rem;
+    color: var(--gifo-text-secondary);
+    margin-bottom: 2rem;
+}
+
+/* Animations */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-title { font-size: 2.5rem; }
+    .hero-stats { flex-direction: column; gap: 1rem; }
+    .floating-cards { height: 300px; }
+    .floating-card { min-width: 120px; padding: 1rem; }
+    .section-title { font-size: 2rem; }
+    .cta-title { font-size: 2rem; }
+    .pricing-card { margin-bottom: 1rem; }
+}
+</style>
+
+<script>
+// Reveal animation on scroll
+document.addEventListener('DOMContentLoaded', function() {
+    const reveals = document.querySelectorAll('.reveal');
+    
+    function revealOnScroll() {
+        reveals.forEach(element => {
+            const elementTop = element.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            
+            if (elementTop < windowHeight - 100) {
+                element.classList.add('active');
+            }
+        });
+    }
+    
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll(); // Initial check
+});
+</script>
+
 {% endblock %}

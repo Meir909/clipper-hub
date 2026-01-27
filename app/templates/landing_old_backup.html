@@ -1,0 +1,186 @@
+{% extends 'layouts/base.html' %}
+{% set page_title = 'Clipper Affiliate Hub' %}
+{% block content %}
+<section class="landing-hero reveal">
+    <div class="halo"></div>
+    <div class="grid-accent"></div>
+    <div class="landing-copy">
+        <p class="eyebrow text-white">Clipper Collective · DACH Market</p>
+        <h1>Turn short clips into steady income.</h1>
+        <p class="lead">Access curated TikTok/Instagram briefs for premium brands, submit edits, and cash out manual payouts with a human reviewer on the other side.</p>
+        <div class="badge-chips">
+            <span class="badge-chip">TikTok native</span>
+            <span class="badge-chip">Manual QC</span>
+            <span class="badge-chip">Swiss-founded</span>
+            <span class="badge-chip">24h feedback</span>
+        </div>
+        <div class="d-flex gap-3 flex-wrap">
+            <a class="btn btn-primary btn-lg" href="{{ url_for('auth.register') }}">Become a Clipper</a>
+            <a class="btn btn-outline-light btn-lg" href="{{ url_for('auth.login') }}">Sign in</a>
+        </div>
+        <div class="hero-footnotes">
+            <div class="footnote-card">
+                <small>MANUAL REVIEWS</small>
+                <strong>100%</strong>
+                <span>Every submission handled by a human manager.</span>
+            </div>
+            <div class="footnote-card">
+                <small>SUCCESS RATE</small>
+                <strong>92%</strong>
+                <span>Clippers who completed at least 3 briefs.</span>
+            </div>
+            <div class="footnote-card">
+                <small>PAYOUT SPEED</small>
+                <strong>18h</strong>
+                <span>Median time from approval to transfer.</span>
+            </div>
+        </div>
+        <div class="metrics-strip">
+            <div class="metric">
+                <small>Active briefs</small>
+                <strong>32</strong>
+            </div>
+            <div class="metric">
+                <small>Avg. payout</small>
+                <strong>€185</strong>
+            </div>
+            <div class="metric">
+                <small>Review time</small>
+                <strong>&lt; 24h</strong>
+            </div>
+        </div>
+    </div>
+    <div class="landing-showcase">
+        <div class="orbit-ring"></div>
+        <div class="kinetic-orb"></div>
+        <div class="stats-pill glass-panel">
+            <p class="text-uppercase small text-muted">Current brief</p>
+            <h3>Swiss Fintech Launch</h3>
+            <p class="text-muted">€20 per approved clip · KPI 800 views</p>
+            <span class="badge rounded-pill bg-dark">TikTok · Instagram</span>
+        </div>
+    </div>
+</section>
+
+<section class="landing-section reveal">
+    <div class="section-header">
+        <h3>Why creators pick Clipper</h3>
+        <div class="brand-list">
+            <span>On</span><span>Swatch</span><span>Red Bull</span><span>Helvetia</span><span>Caran d'Ache</span>
+        </div>
+    </div>
+    <div class="landing-grid">
+        <div class="feature-card">
+            <h5>Curated EU briefs</h5>
+            <p>Only premium DACH campaigns with clear deliverables, usage rights, and KPI expectations.</p>
+        </div>
+        <div class="feature-card">
+            <h5>Manual QC & payouts</h5>
+            <p>Each submission is reviewed by a human manager who messages you directly on Telegram/phone.</p>
+        </div>
+        <div class="feature-card">
+            <h5>Creator-friendly limits</h5>
+            <p>Daily submission caps, transparent earnings, and payouts starting at €20.</p>
+        </div>
+        <div class="feature-card">
+            <h5>Analytics snapshots</h5>
+            <p>Track approvals, views, and manual balance adjustments from a minimalist dashboard.</p>
+        </div>
+    </div>
+</section>
+
+<section class="landing-section reveal">
+    <div class="section-header">
+        <h3>Workflow, but handcrafted</h3>
+    </div>
+    <div class="timeline">
+        <div class="timeline-step" data-step="01">
+            <h5>Join the hub</h5>
+            <p>Create a clipper account in seconds and access open briefs immediately.</p>
+        </div>
+        <div class="timeline-step" data-step="02">
+            <h5>Produce & submit</h5>
+            <p>Upload your TikTok/IG Reel link, choose the platform, and watch the live status.</p>
+        </div>
+        <div class="timeline-step" data-step="03">
+            <h5>Manager review</h5>
+            <p>A dedicated manager approves or gives feedback, then triggers a balance update.</p>
+        </div>
+        <div class="timeline-step" data-step="04">
+            <h5>Human payout</h5>
+            <p>Request payout, leave your Telegram/phone, and a real person finalizes the transfer.</p>
+        </div>
+    </div>
+</section>
+
+<section class="landing-section reveal">
+    <div class="section-header">
+        <h3>Creators talking</h3>
+    </div>
+    <div class="testimonial-grid">
+        <div class="testimonial-card">
+            <p>“Finally a platform that doesn’t ghost you. I submitted 2 fintech clips and got paid within 24h after approval.”</p>
+            <strong>Lea · Zurich</strong>
+        </div>
+        <div class="testimonial-card">
+            <p>“Love the transparency. KPIs, payouts, and managers are all in one place, and communication happens in Telegram.”</p>
+            <strong>Markus · Vienna</strong>
+        </div>
+        <div class="testimonial-card">
+            <p>“They keep the brief quality high. No spammy offers, just well written requirements for real brands.”</p>
+            <strong>Klara · Munich</strong>
+        </div>
+    </div>
+</section>
+
+<section class="landing-section case-study reveal">
+    <div class="case-card">
+        <p class="eyebrow">Case study · Luxury Skincare</p>
+        <h4>From storyboard to €3.5k earned in 6 weeks</h4>
+        <p>A Vienna-based duo produced 14 short-form assets with a 92% approval rate thanks to real-time manager feedback.</p>
+        <ul>
+            <li>Avg. 1.3 revisions per clip</li>
+            <li>Telegram calls for launch-day tweaks</li>
+            <li>Manual payouts via SEPA within 18h</li>
+        </ul>
+    </div>
+    <div class="device-preview">
+        <div class="preview-lines">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</section>
+
+<section class="landing-section reveal">
+    <div class="section-header">
+        <h3>Questions, answered</h3>
+    </div>
+    <div class="faq-list">
+        <details class="faq-item" open>
+            <summary>How do payouts work?</summary>
+            <p>You submit your Telegram/phone contacts. Once a manager approves your clip, they reach out personally to confirm details and send PayPal/bank transfer manually.</p>
+        </details>
+        <details class="faq-item">
+            <summary>Is there a review backlog?</summary>
+            <p>Our average review time is under 24 hours. Managers triage by KPI urgency and send feedback in Telegram if edits are required.</p>
+        </details>
+        <details class="faq-item">
+            <summary>What platforms are supported?</summary>
+            <p>We’re focused on TikTok and Instagram Reels, with Shorts pilots launching soon. Each brief specifies the target channel.</p>
+        </details>
+    </div>
+</section>
+
+<section class="cta-banner reveal">
+    <div>
+        <p class="eyebrow text-white">Manual-first affiliate platform</p>
+        <h3>Ready to secure your next brand collab?</h3>
+        <p class="mb-0">Get verified once, submit as many clips as you want, and talk to real managers when it matters.</p>
+    </div>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('auth.register') }}">Start clipping</a>
+</section>
+{% endblock %}
