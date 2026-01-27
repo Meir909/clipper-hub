@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body{% if request.endpoint == 'landing' %} class="landing-page"{% endif %}>
+<body{% if request.endpoint == 'landing' or request.endpoint == None %} class="landing-page"{% endif %}>
     <style>
     /* Enhanced sidebar styles */
     .sidebar-toggle {
@@ -146,6 +146,83 @@
     
     body.landing-page .app-main {
         margin-left: 0 !important;
+    }
+    
+    /* Landing page header */
+    body.landing-page .landing-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 1rem 0;
+        transition: all 0.3s ease;
+    }
+    
+    body.landing-page .landing-header.scrolled {
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    }
+    
+    body.landing-page .landing-header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    body.landing-page .landing-logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--gifo-text-primary);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    body.landing-page .landing-logo:hover {
+        color: var(--gifo-primary);
+    }
+    
+    body.landing-page .landing-nav {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+    }
+    
+    body.landing-page .landing-nav a {
+        color: var(--gifo-text-secondary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }
+    
+    body.landing-page .landing-nav a:hover {
+        color: var(--gifo-primary);
+    }
+    
+    body.landing-page .landing-actions {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+    
+    @media (max-width: 768px) {
+        body.landing-page .landing-nav {
+            display: none;
+        }
+        
+        body.landing-page .landing-actions {
+            gap: 0.5rem;
+        }
+        
+        body.landing-page .landing-actions .btn {
+            padding: 0.5rem 1rem !important;
+            font-size: 0.875rem !important;
+        }
     }
     
     /* Gifo-inspired landing page styles */
