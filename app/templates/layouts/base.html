@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body{% if request.endpoint == 'landing' or request.endpoint == None %} class="landing-page"{% endif %}>
+<body{% if 'landing' in request.endpoint or request.endpoint == None or request.endpoint == 'static' %} class="landing-page"{% endif %}>
     <style>
     /* Enhanced sidebar styles */
     .sidebar-toggle {
@@ -136,16 +136,30 @@
     }
     
     /* Hide sidebar completely on landing page */
-    body.landing-page .app-sidebar {
+    body.landing-page .app-sidebar,
+    body.landing-page .mobile-nav-toggle,
+    body.landing-page .sidebar-toggle {
         display: none !important;
-    }
-    
-    body.landing-page .mobile-nav-toggle {
-        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
     }
     
     body.landing-page .app-main {
         margin-left: 0 !important;
+        width: 100% !important;
+    }
+    
+    body.landing-page .app-shell {
+        display: block !important;
+        width: 100% !important;
+    }
+    
+    body.landing-page .bg-constellation {
+        display: none !important;
+    }
+    
+    body.landing-page .orb {
+        display: none !important;
     }
     
     /* Landing page header */
@@ -232,6 +246,19 @@
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow-x: hidden;
+    }
+    
+    body.landing-page * {
+        box-sizing: border-box;
+    }
+    
+    body.landing-page .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
     }
     
     /* Modern color variables for landing */
