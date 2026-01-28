@@ -2,6 +2,143 @@
 {% set page_title = 'Clipper Affiliate Hub' %}
 {% block content %}
 <style>
+/* Landing page header styles */
+.landing-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+    transition: all 0.3s ease;
+}
+
+.landing-header.scrolled {
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.landing-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.landing-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s ease;
+}
+
+.landing-logo:hover {
+    color: #667eea;
+}
+
+.landing-nav {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.landing-nav a {
+    color: #5a6c7d;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    position: relative;
+}
+
+.landing-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #667eea;
+    transition: width 0.3s ease;
+}
+
+.landing-nav a:hover {
+    color: #667eea;
+}
+
+.landing-nav a:hover::after {
+    width: 100%;
+}
+
+.landing-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.landing-actions .btn {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.landing-actions .btn-outline {
+    background: transparent;
+    color: #667eea;
+    border: 1px solid #667eea;
+}
+
+.landing-actions .btn-outline:hover {
+    background: #667eea;
+    color: white;
+}
+
+.landing-actions .btn-primary {
+    background: #667eea;
+    color: white;
+    border: 1px solid #667eea;
+}
+
+.landing-actions .btn-primary:hover {
+    background: #5a6fd8;
+    transform: translateY(-1px);
+}
+
+/* Mobile responsive header */
+@media (max-width: 768px) {
+    .landing-nav {
+        display: none;
+    }
+    
+    .landing-actions {
+        gap: 0.5rem;
+    }
+    
+    .landing-actions .btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.85rem;
+    }
+    
+    .landing-logo {
+        font-size: 1.25rem;
+    }
+}
+
+/* Adjust hero section for fixed header */
+.landing-hero {
+    padding-top: 100px !important;
+}
+
 /* Remove gap between hero and next section */
 .landing-hero {
     margin-bottom: 0 !important;
@@ -377,6 +514,27 @@
     }
 }
 </style>
+
+<!-- Landing Header -->
+<header class="landing-header" id="landingHeader">
+    <div class="container">
+        <a href="/" class="landing-logo">
+            <span>🎬</span>
+            <span>Clipper HQ</span>
+        </a>
+        <nav class="landing-nav">
+            <a href="#features">Features</a>
+            <a href="#workflow">How it Works</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#faq">FAQ</a>
+        </nav>
+        <div class="landing-actions">
+            <a href="{{ url_for('auth.login') }}" class="btn btn-outline">Sign In</a>
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Get Started</a>
+        </div>
+    </div>
+</header>
+
 <section class="landing-hero reveal">
     <div class="halo"></div>
     <div class="grid-accent"></div>
@@ -448,7 +606,7 @@
     </div>
 </section>
 
-<section class="landing-section reveal">
+<section class="landing-section reveal" id="features">
     <div class="section-header">
         <h3>Why creators pick Clipper</h3>
         <div class="brand-list">
@@ -475,7 +633,7 @@
     </div>
 </section>
 
-<section class="landing-section reveal">
+<section class="landing-section reveal" id="workflow">
     <div class="section-header">
         <h3>Workflow, but handcrafted</h3>
     </div>
@@ -499,7 +657,7 @@
     </div>
 </section>
 
-<section class="landing-section reveal">
+<section class="landing-section reveal" id="testimonials">
     <div class="section-header">
         <h3>Creators talking</h3>
     </div>
@@ -626,4 +784,82 @@
         </span>
     </a>
 </section>
+
+<script>
+// Header functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const header = document.getElementById('landingHeader');
+    
+    // Header scroll effect
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+    
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('.landing-nav a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                const headerHeight = header.offsetHeight;
+                const targetPosition = target.offsetTop - headerHeight - 20;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // Active navigation highlighting
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.landing-nav a[href^="#"]');
+    
+    window.addEventListener('scroll', function() {
+        let current = '';
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - header.offsetHeight - 100;
+            const sectionHeight = section.offsetHeight;
+            
+            if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                current = section.getAttribute('id');
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.style.color = '';
+            link.classList.remove('active');
+            
+            if (link.getAttribute('href') === '#' + current) {
+                link.style.color = '#667eea';
+                link.classList.add('active');
+            }
+        });
+    });
+});
+
+// Reveal animations
+function reveal() {
+    const reveals = document.querySelectorAll('.reveal');
+    
+    reveals.forEach(element => {
+        const windowHeight = window.innerHeight;
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+        
+        if (elementTop < windowHeight - elementVisible) {
+            element.classList.add('active');
+        }
+    });
+}
+
+window.addEventListener('scroll', reveal);
+reveal(); // Initial check
+</script>
 {% endblock %}
