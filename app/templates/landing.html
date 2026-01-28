@@ -2,6 +2,17 @@
 {% set page_title = 'Clipper Affiliate Hub' %}
 {% block content %}
 <style>
+/* Remove gap between hero and next section */
+.landing-hero {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.landing-section:first-of-type {
+    margin-top: 0 !important;
+    padding-top: 60px !important;
+}
+
 /* Enhanced button styles */
 .hero-btn-primary, .hero-btn-secondary, .cta-btn {
     position: relative;
