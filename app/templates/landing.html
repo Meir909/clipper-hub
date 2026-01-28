@@ -1,6 +1,206 @@
 {% extends 'layouts/base.html' %}
 {% set page_title = 'Clipper Affiliate Hub' %}
 {% block content %}
+<style>
+/* Enhanced button styles */
+.hero-btn-primary, .hero-btn-secondary, .cta-btn {
+    position: relative;
+    overflow: hidden;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 16px 32px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 200px;
+}
+
+.hero-btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+}
+
+.hero-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+.hero-btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.hero-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+}
+
+.cta-btn {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    box-shadow: 0 8px 32px rgba(240, 147, 251, 0.3);
+}
+
+.cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(240, 147, 251, 0.4);
+    background: linear-gradient(135deg, #e681f7 0%, #f0465c 100%);
+}
+
+.btn-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+    z-index: 2;
+}
+
+.btn-text {
+    transition: transform 0.3s ease;
+}
+
+.btn-icon {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+    opacity: 0.8;
+}
+
+.hero-btn-primary:hover .btn-icon,
+.hero-btn-secondary:hover .btn-icon,
+.cta-btn:hover .btn-icon {
+    transform: translateX(4px);
+    opacity: 1;
+}
+
+/* Button ripple effect */
+.hero-btn-primary::before,
+.hero-btn-secondary::before,
+.cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.hero-btn-primary:hover::before,
+.hero-btn-secondary:hover::before,
+.cta-btn:hover::before {
+    left: 100%;
+}
+
+/* Enhanced FAQ styles */
+.section-subtitle {
+    color: #6c757d;
+    font-size: 1.1rem;
+    margin-top: -10px;
+    margin-bottom: 40px;
+}
+
+.faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.faq-item:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.faq-item[open] {
+    background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+    border-color: #667eea;
+}
+
+.faq-item summary {
+    padding: 20px 24px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: #2c3e50;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.faq-item summary::before {
+    content: '+';
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: #667eea;
+    transition: transform 0.3s ease;
+}
+
+.faq-item[open] summary::before {
+    transform: rotate(45deg);
+}
+
+.faq-item summary:hover {
+    color: #667eea;
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.faq-item p {
+    padding: 0 24px 20px 24px;
+    color: #5a6c7d;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.faq-item[open] p {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-btn-primary, .hero-btn-secondary, .cta-btn {
+        font-size: 1rem;
+        padding: 14px 24px;
+        min-width: 160px;
+    }
+    
+    .faq-item summary {
+        padding: 16px 20px;
+        font-size: 1rem;
+    }
+    
+    .faq-item p {
+        padding: 0 20px 16px 20px;
+    }
+}
+</style>
 <section class="landing-hero reveal">
     <div class="halo"></div>
     <div class="grid-accent"></div>
@@ -15,8 +215,18 @@
             <span class="badge-chip">24h feedback</span>
         </div>
         <div class="d-flex gap-3 flex-wrap">
-            <a class="btn btn-primary btn-lg" href="{{ url_for('auth.register') }}">Become a Clipper</a>
-            <a class="btn btn-outline-light btn-lg" href="{{ url_for('auth.login') }}">Sign in</a>
+            <a class="btn btn-primary btn-lg hero-btn-primary" href="{{ url_for('auth.register') }}">
+                <span class="btn-content">
+                    <span class="btn-text">Become a Clipper</span>
+                    <span class="btn-icon">→</span>
+                </span>
+            </a>
+            <a class="btn btn-outline-light btn-lg hero-btn-secondary" href="{{ url_for('auth.login') }}">
+                <span class="btn-content">
+                    <span class="btn-text">Sign in</span>
+                    <span class="btn-icon">↗</span>
+                </span>
+            </a>
         </div>
         <div class="hero-footnotes">
             <div class="footnote-card">
@@ -157,7 +367,8 @@
 
 <section class="landing-section reveal">
     <div class="section-header">
-        <h3>Questions, answered</h3>
+        <h3>Frequently Asked Questions</h3>
+        <p class="section-subtitle">Everything you need to know about becoming a Clipper</p>
     </div>
     <div class="faq-list">
         <details class="faq-item" open>
@@ -170,7 +381,43 @@
         </details>
         <details class="faq-item">
             <summary>What platforms are supported?</summary>
-            <p>We’re focused on TikTok and Instagram Reels, with Shorts pilots launching soon. Each brief specifies the target channel.</p>
+            <p>We're focused on TikTok and Instagram Reels, with Shorts pilots launching soon. Each brief specifies the target channel.</p>
+        </details>
+        <details class="faq-item">
+            <summary>How much can I earn per clip?</summary>
+            <p>Payouts range from €50-€300 per approved clip depending on complexity, brand tier, and usage rights. Premium campaigns can pay up to €500.</p>
+        </details>
+        <details class="faq-item">
+            <summary>Do I need professional equipment?</summary>
+            <p>Not necessarily. Many successful clippers use smartphones. What matters most is creativity, understanding trends, and following brief requirements.</p>
+        </details>
+        <details class="faq-item">
+            <summary>What's the approval process like?</summary>
+            <p>Submit your portfolio/social handles. Our team reviews your content quality and style. Most applications get a response within 48 hours.</p>
+        </details>
+        <details class="faq-item">
+            <summary>Can I work with multiple brands simultaneously?</summary>
+            <p>Absolutely! Once approved, you can access all available briefs and submit to multiple brands as long as you meet each campaign's requirements.</p>
+        </details>
+        <details class="faq-item">
+            <summary>What if my clip gets rejected?</summary>
+            <p>Managers provide detailed feedback via Telegram. You can revise and resubmit if the brief is still active, or apply the feedback to future submissions.</p>
+        </details>
+        <details class="faq-item">
+            <summary>Are there any fees or commissions?</summary>
+            <p>No hidden fees. You receive the full payout amount specified in each brief. We handle payment processing costs.</p>
+        </details>
+        <details class="faq-item">
+            <summary>How do I get started?</summary>
+            <p>Click "Become a Clipper" to register. Complete your profile, submit portfolio samples, and once approved, you'll get access to available briefs immediately.</p>
+        </details>
+        <details class="faq-item">
+            <summary>Is this available outside the DACH region?</summary>
+            <p>While we focus on DACH brands, we accept clippers globally. However, some briefs may require local language skills or market knowledge.</p>
+        </details>
+        <details class="faq-item">
+            <summary>What kind of brands do you work with?</summary>
+            <p>We partner with premium DACH brands across fashion, tech, lifestyle, beauty, and entertainment sectors. All campaigns are manually vetted for quality.</p>
         </details>
     </div>
 </section>
@@ -181,6 +428,11 @@
         <h3>Ready to secure your next brand collab?</h3>
         <p class="mb-0">Get verified once, submit as many clips as you want, and talk to real managers when it matters.</p>
     </div>
-    <a class="btn btn-primary btn-lg" href="{{ url_for('auth.register') }}">Start clipping</a>
+    <a class="btn btn-primary btn-lg cta-btn" href="{{ url_for('auth.register') }}">
+        <span class="btn-content">
+            <span class="btn-text">Start clipping</span>
+            <span class="btn-icon">→</span>
+        </span>
+    </a>
 </section>
 {% endblock %}
