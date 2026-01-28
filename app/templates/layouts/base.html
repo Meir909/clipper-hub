@@ -13,139 +13,66 @@
 </head>
 <body{% if request.endpoint == 'landing.index' or request.path == '/' %} class="landing-page"{% endif %}>
     <style>
-    /* Enhanced sidebar styles */
-    .sidebar-toggle {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: rgba(255, 255, 255, 0.9);
-        cursor: pointer;
-        padding: 0.5rem;
-        margin-right: 0.75rem;
-        border-radius: 0.5rem;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-    }
-    
-    .sidebar-toggle:hover {
-        color: #fff;
-        background: rgba(255, 255, 255, 0.2);
-        border-color: rgba(255, 255, 255, 0.3);
-        transform: scale(1.05);
-    }
-    
-    .sidebar-toggle:active {
-        transform: scale(0.95);
-    }
-    
+    /* Hide sidebar for all authenticated users */
     .app-sidebar {
-        width: 280px;
-        background: rgba(18, 19, 23, 0.95);
-        backdrop-filter: blur(20px);
-        color: white;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
-        z-index: 1000;
+        display: none !important;
     }
     
-    .app-sidebar.collapsed {
-        width: 80px !important;
-    }
-    
-    .app-sidebar.collapsed .brand-text {
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.2s ease;
-    }
-    
-    .app-sidebar.collapsed .nav-link span {
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.2s ease;
-    }
-    
-    .app-sidebar.collapsed .nav-link {
-        justify-content: center;
-        padding: 0.75rem 0;
-        position: relative;
-    }
-    
-    .app-sidebar.collapsed .nav-link.active::before {
-        display: none;
-    }
-    
-    .app-sidebar.collapsed .spark {
-        margin: 0 auto;
-    }
-    
-    .app-sidebar.collapsed .brand {
-        justify-content: center;
-        padding: 1.5rem 0;
-    }
-    
-    .sidebar-collapsed .app-main {
-        margin-left: 80px !important;
-        transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    .mobile-nav-toggle {
+        display: none !important;
     }
     
     .app-main {
-        margin-left: 280px;
-        transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        margin-left: 0 !important;
+        width: 100% !important;
     }
     
-    /* Mobile navigation */
-    .mobile-nav-toggle {
-        background: rgba(18, 19, 23, 0.9);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: white;
-        padding: 0.75rem;
+    .app-shell {
+        display: block !important;
+        width: 100% !important;
+    }
+    
+    /* Top navigation styles */
+    .top-nav {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-right: 2rem;
+    }
+    
+    .top-nav .nav-link {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
         border-radius: 0.5rem;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
+        transition: all 0.2s ease;
+        position: relative;
     }
     
-    .mobile-nav-toggle:hover {
-        background: rgba(18, 19, 23, 1);
-        transform: scale(1.05);
+    .top-nav .nav-link:hover {
+        color: white;
+        background: rgba(255, 255, 255, 0.1);
     }
     
-    @media (max-width: 992px) {
-        .sidebar-toggle {
+    .top-nav .nav-link.active {
+        color: white;
+        background: rgba(255, 255, 255, 0.15);
+    }
+    
+    .top-nav .nav-link.text-danger {
+        color: #ff6b6b !important;
+    }
+    
+    .top-nav .nav-link.text-danger:hover {
+        background: rgba(255, 107, 107, 0.1);
+    }
+    
+    /* Responsive top navigation */
+    @media (max-width: 768px) {
+        .top-nav {
             display: none;
         }
-        
-        .app-sidebar {
-            position: fixed;
-            left: -280px;
-            top: 0;
-            height: 100vh;
-            z-index: 1050;
-            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .app-sidebar.mobile-open {
-            left: 0;
-        }
-        
-        .app-main {
-            margin-left: 0 !important;
-        }
-        
-        .sidebar-collapsed .app-main {
-            margin-left: 0 !important;
-        }
-    }
-    
-    /* Hide sidebar completely on landing page */
-    body.landing-page .app-sidebar {
-        display: none !important;
-    }
-    
-    body.landing-page .mobile-nav-toggle {
-        display: none !important;
-    }
-    
-    body.landing-page .app-main {
-        margin-left: 0 !important;
     }
     </style>
     <div class="bg-constellation">
@@ -153,59 +80,43 @@
         <div class="orb orb-two"></div>
         <div class="orb orb-three"></div>
     </div>
-    <div class="app-shell d-flex">
-        {% if current_user.is_authenticated %}
-        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 12h18M3 6h18M3 18h18"/>
-            </svg>
-        </button>
-        <aside class="app-sidebar" id="appSidebar">
-            <div class="brand">
-                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 12h18M3 6h18M3 18h18"/>
-                    </svg>
-                </button>
-                <div class="spark"></div>
-                <span class="brand-text">Clipper HQ</span>
-            </div>
-            <nav class="nav flex-column">
-                {% set role_value = current_user.role.value %}
-                {% set endpoint = request.endpoint %}
-                <a class="nav-link {{ 'active' if endpoint == 'dashboard.index' else '' }}" href="{{ url_for('dashboard.index') }}">Overview</a>
-                {% if role_value == 'clipper' %}
-                    <a class="nav-link {{ 'active' if endpoint == 'clipper.projects' else '' }}" href="{{ url_for('clipper.projects') }}">Projects</a>
-                    <a class="nav-link {{ 'active' if endpoint == 'clipper.my_submissions' else '' }}" href="{{ url_for('clipper.my_submissions') }}">My submissions</a>
-                    <a class="nav-link {{ 'active' if endpoint == 'clipper.request_payout' else '' }}" href="{{ url_for('clipper.request_payout') }}">Payout</a>
-                {% elif role_value == 'manager' %}
-                    <a class="nav-link {{ 'active' if endpoint in ['manager.managed_projects', 'manager.project_submissions', 'manager.review_submission'] else '' }}" href="{{ url_for('manager.managed_projects') }}">Managed projects</a>
-                {% elif role_value == 'admin' %}
-                    <a class="nav-link {{ 'active' if endpoint in ['admin.projects', 'admin.create_project', 'admin.edit_project'] else '' }}" href="{{ url_for('admin.projects') }}">Projects</a>
-                    <a class="nav-link {{ 'active' if endpoint == 'admin.users' else '' }}" href="{{ url_for('admin.users') }}">Users</a>
-                    <a class="nav-link {{ 'active' if endpoint == 'admin.payouts' else '' }}" href="{{ url_for('admin.payouts') }}">Payouts</a>
-                {% endif %}
-                <a class="nav-link text-danger" href="{{ url_for('auth.logout') }}">Sign out</a>
-            </nav>
-        </aside>
-        {% endif %}
+    <div class="app-shell">
         <main class="app-main flex-grow-1">
-            <header class="app-topbar d-flex justify-content-between align-items-center">
-                <div>
-                    <h1 class="page-title">{{ page_title or 'Dashboard' }}</h1>
-                    {% if subtitle %}
-                    <p class="page-subtitle">{{ subtitle }}</p>
+            <header class="app-topbar">
+                <div class="d-flex justify-content-between align-items-center w-100">
+                    <div>
+                        <h1 class="page-title">{{ page_title or 'Dashboard' }}</h1>
+                        {% if subtitle %}
+                        <p class="page-subtitle">{{ subtitle }}</p>
+                        {% endif %}
+                    </div>
+                    {% if current_user.is_authenticated %}
+                    <nav class="top-nav">
+                        {% set role_value = current_user.role.value %}
+                        {% set endpoint = request.endpoint %}
+                        <a class="nav-link {{ 'active' if endpoint == 'dashboard.index' else '' }}" href="{{ url_for('dashboard.index') }}">Overview</a>
+                        {% if role_value == 'clipper' %}
+                            <a class="nav-link {{ 'active' if endpoint == 'clipper.projects' else '' }}" href="{{ url_for('clipper.projects') }}">Projects</a>
+                            <a class="nav-link {{ 'active' if endpoint == 'clipper.my_submissions' else '' }}" href="{{ url_for('clipper.my_submissions') }}">My submissions</a>
+                            <a class="nav-link {{ 'active' if endpoint == 'clipper.request_payout' else '' }}" href="{{ url_for('clipper.request_payout') }}">Payout</a>
+                        {% elif role_value == 'manager' %}
+                            <a class="nav-link {{ 'active' if endpoint in ['manager.managed_projects', 'manager.project_submissions', 'manager.review_submission'] else '' }}" href="{{ url_for('manager.managed_projects') }}">Managed projects</a>
+                        {% elif role_value == 'admin' %}
+                            <a class="nav-link {{ 'active' if endpoint in ['admin.projects', 'admin.create_project', 'admin.edit_project'] else '' }}" href="{{ url_for('admin.projects') }}">Projects</a>
+                            <a class="nav-link {{ 'active' if endpoint == 'admin.users' else '' }}" href="{{ url_for('admin.users') }}">Users</a>
+                            <a class="nav-link {{ 'active' if endpoint == 'admin.payouts' else '' }}" href="{{ url_for('admin.payouts') }}">Payouts</a>
+                        {% endif %}
+                        <a class="nav-link text-danger" href="{{ url_for('auth.logout') }}">Sign out</a>
+                    </nav>
+                    <div class="user-chip">
+                        <div class="dot"></div>
+                        <div>
+                            <strong>{{ current_user.display_name or current_user.email }}</strong>
+                            <span>{{ current_user.role.value|title }}</span>
+                        </div>
+                    </div>
                     {% endif %}
                 </div>
-                {% if current_user.is_authenticated %}
-                <div class="user-chip">
-                    <div class="dot"></div>
-                    <div>
-                        <strong>{{ current_user.display_name or current_user.email }}</strong>
-                        <span>{{ current_user.role.value|title }}</span>
-                    </div>
-                </div>
-                {% endif %}
             </header>
             <section class="app-content">
                 {% include 'partials/flash.html' %}
