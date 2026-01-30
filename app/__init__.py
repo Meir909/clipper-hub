@@ -1,7 +1,8 @@
 from flask import Flask
 import logging
+import os
 from config import Config
-from .extensions import db, login_manager, bcrypt, csrf
+from .extensions import db, login_manager, bcrypt, csrf, oauth
 from .utils import register_template_utils
 from .models import User
 
@@ -39,6 +40,23 @@ def register_extensions(app: Flask) -> None:
     login_manager.init_app(app)
     bcrypt.init_app(app)
     csrf.init_app(app)
+    
+    # Initialize OAuth
+    oauth.init_app(app)
+    
+    # Configure Google OAuth
+    google_client_id = os.environ.get('GOOGLE_CLIENT_ID', 'your-google-client-id')
+    google_client_secret = os.environ.get('GOOGLE_CLIENT_SECRET', 'your-google-client-secret')
+    
+    oauth.register(
+        name='google',
+        client_id=google_client_id,
+        client_secret=google_client_secret,
+        server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
+        client_kwargs={
+            'scope': 'openid email profile'
+        }
+    )
 
 
 def register_blueprints(app: Flask) -> None:

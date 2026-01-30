@@ -58,6 +58,8 @@ class User(UserMixin, db.Model):
     role: Mapped[Role] = mapped_column(SAEnum(Role), default=Role.CLIPPER, nullable=False)
     display_name: Mapped[str | None] = mapped_column(db.String(120))
     telegram_id: Mapped[str | None] = mapped_column(db.String(120), unique=True)
+    google_id: Mapped[str | None] = mapped_column(db.String(120), unique=True)
+    avatar_url: Mapped[str | None] = mapped_column(db.String(500))
     balance_cents: Mapped[int] = mapped_column(default=0)
     total_earned_cents: Mapped[int] = mapped_column(default=0)
     is_active: Mapped[bool] = mapped_column(default=True)

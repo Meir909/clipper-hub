@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='5.0.0') }}">
+    <style>
+        /* Встроенные стили для базового шаблона */
+        :root {
+            --primary-color: #ff6b3d;
+            --primary-dark: #d94b1f;
+            --primary-light: #ff8f65;
+            --secondary-color: #667eea;
+            --secondary-dark: #5a67d8;
+            --accent-color: #48bb78;
+            --accent-dark: #38a169;
+            --danger-color: #f56565;
+            --danger-dark: #e53e3e;
+            --warning-color: #ed8936;
+            --warning-dark: #dd6b20;
+            --dark-bg: #1a202c;
+            --darker-bg: #0f1419;
+            --light-bg: #f7fafc;
+            --white: #ffffff;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 25px rgba(0,0,0,0.1), 0 10px 10px rgba(0,0,0,0.04);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Анимированный фон */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #fda085 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            opacity: 0.1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Плавающие элементы */
+        .floating-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .orb-1 {
+            top: 10%;
+            left: 10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.8), transparent 70%);
+            animation: float1 20s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            top: 60%;
+            right: 10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(245, 87, 108, 0.8), transparent 70%);
+            animation: float2 25s ease-in-out infinite;
+        }
+
+        .orb-3 {
+            bottom: 10%;
+            left: 50%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(253, 160, 133, 0.8), transparent 70%);
+            animation: float3 18s ease-in-out infinite;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -30px) scale(1.1); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-30px, 30px) scale(0.9); }
+        }
+
+        @keyframes float3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(20px, 20px) scale(1.05); }
+        }
+
+        /* Основная структура */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Сайдбар */
+        .app-sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
+            color: var(--white);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: var(--white);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+        }
+
+        .brand:hover {
+            transform: translateX(5px);
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(255, 107, 61, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: var(--transition);
+            position: relative;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            transform: translateX(5px);
+        }
+
+        .nav-link.active {
+            background: rgba(255, 107, 61, 0.2);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .nav-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 0 2px 2px 0;
+        }
+
+        .nav-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            margin: 1.5rem 0;
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            transition: var(--transition);
+        }
+
+        .user-info:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(255, 107, 61, 0.3);
+        }
+
+        .user-details {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--white);
+            margin-bottom: 0.25rem;
+        }
+
+        .user-role {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Основной контент */
+        .app-main {
+            flex: 1;
+            margin-left: 280px;
+            background: var(--white);
+            min-height: 100vh;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        /* Хидер */
+        .app-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.25rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .user-chip:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            box-shadow: 0 0 8px rgba(72, 187, 119, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        /* Контент */
+        .app-content {
+            padding: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Мобильная навигация */
+        .mobile-nav-toggle {
+            display: none;
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            z-index: 1001;
+            background: var(--primary-color);
+            border: none;
+            border-radius: 12px;
+            padding: 0.75rem;
+            cursor: pointer;
+            color: var(--white);
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+        }
+
+        .mobile-nav-toggle:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .mobile-nav-toggle svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1024px) {
+            .app-sidebar {
+                transform: translateX(-100%);
+            }
+
+            .app-sidebar.active {
+                transform: translateX(0);
+            }
+
+            .app-main {
+                margin-left: 0;
+            }
+
+            .mobile-nav-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .app-header {
+                padding: 1.5rem 2rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .app-content {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-header {
+                padding: 1rem 1.5rem;
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .page-title {
+                font-size: 1.75rem;
+            }
+
+            .app-content {
+                padding: 1.5rem;
+            }
+
+            .user-chip {
+                padding: 0.5rem 1rem;
+            }
+        }
+
+        /* Скрытие элементов */
+        .landing-page .app-sidebar,
+        .landing-page .mobile-nav-toggle,
+        .auth-page .app-sidebar,
+        .auth-page .mobile-nav-toggle {
+            display: none !important;
+        }
+
+        .landing-page .app-main,
+        .auth-page .app-main {
+            margin-left: 0;
+        }
+
+        /* Футер */
+        .site-footer {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
+            color: var(--white);
+            padding: 3rem 2rem;
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .site-footer h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .site-footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .site-footer li {
+            margin-bottom: 0.5rem;
+        }
+
+        .site-footer a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .site-footer a:hover {
+            color: var(--white);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        /* Футер только на лендинге */
+        body:not(.landing-page) .site-footer {
+            display: none;
+        }
+
+        /* Анимации */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.6s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Утилиты */
+        .text-center {
+            text-align: center;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        .justify-content-between {
+            justify-content: space-between;
+        }
+
+        .justify-content-center {
+            justify-content: center;
+        }
+
+        .gap-1 {
+            gap: 0.25rem;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        .gap-3 {
+            gap: 1rem;
+        }
+
+        .gap-4 {
+            gap: 1.5rem;
+        }
+
+        .mb-0 {
+            margin-bottom: 0;
+        }
+
+        .mb-1 {
+            margin-bottom: 0.25rem;
+        }
+
+        .mb-2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .mb-3 {
+            margin-bottom: 1rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 1.5rem;
+        }
+
+        .mb-5 {
+            margin-bottom: 2rem;
+        }
+
+        .mt-0 {
+            margin-top: 0;
+        }
+
+        .mt-1 {
+            margin-top: 0.25rem;
+        }
+
+        .mt-2 {
+            margin-top: 0.5rem;
+        }
+
+        .mt-3 {
+            margin-top: 1rem;
+        }
+
+        .mt-4 {
+            margin-top: 1.5rem;
+        }
+
+        .mt-5 {
+            margin-top: 2rem;
+        }
+
+        .p-0 {
+            padding: 0;
+        }
+
+        .p-1 {
+            padding: 0.25rem;
+        }
+
+        .p-2 {
+            padding: 0.5rem;
+        }
+
+        .p-3 {
+            padding: 1rem;
+        }
+
+        .p-4 {
+            padding: 1.5rem;
+        }
+
+        .p-5 {
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -0.5rem;
+        }
+
+        .col {
+            flex: 1;
+            padding: 0 0.5rem;
+        }
+
+        .col-6 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+
+        .col-12 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
+        .col-lg-4 {
+            flex: 0 0 33.333333%;
+            max-width: 33.333333%;
+        }
+
+        .col-lg-8 {
+            flex: 0 0 66.666667%;
+            max-width: 66.666667%;
+        }
+
+        .col-md-6 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+
+        .col-sm-12 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .col-md-6 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .col-sm-12 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body{% if request.endpoint == 'landing.index' or request.path == '/' %} class="landing-page"{% elif request.endpoint in ['auth.login', 'auth.register'] %} class="auth-page"{% endif %}>
+    <div class="animated-bg"></div>
+    <div class="floating-orb orb-1"></div>
+    <div class="floating-orb orb-2"></div>
+    <div class="floating-orb orb-3"></div>
+    
+    <div class="app-container">
+        <!-- Мобильная кнопка -->
+        <button class="mobile-nav-toggle" id="mobileNavToggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        
+        <!-- Сайдбар -->
+        {% if current_user.is_authenticated and not (request.endpoint == 'landing.index' or request.path == '/') and not (request.endpoint in ['auth.login', 'auth.register']) %}
+        <aside class="app-sidebar" id="appSidebar">
+            <div class="sidebar-header">
+                <a href="{{ url_for('dashboard.index') }}" class="brand">
+                    <div class="brand-icon">🎬</div>
+                    <span>Clipper HQ</span>
+                </a>
+            </div>
+            
+            <nav class="sidebar-nav">
+                {% set role_value = current_user.role.value %}
+                {% set endpoint = request.endpoint %}
+                
+                <a class="nav-link {{ 'active' if endpoint == 'dashboard.index' else '' }}" href="{{ url_for('dashboard.index') }}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <span>Overview</span>
+                </a>
+                
+                {% if role_value == 'clipper' %}
+                    <a class="nav-link {{ 'active' if endpoint == 'clipper.projects' else '' }}" href="{{ url_for('clipper.projects') }}">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                        </svg>
+                        <span>Projects</span>
+                    </a>
+                    <a class="nav-link {{ 'active' if endpoint == 'clipper.my_submissions' else '' }}" href="{{ url_for('clipper.my_submissions') }}">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>
+                        <span>My submissions</span>
+                    </a>
+                    <a class="nav-link {{ 'active' if endpoint == 'clipper.request_payout' else '' }}" href="{{ url_for('clipper.request_payout') }}">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                        <span>Payout</span>
+                    </a>
+                {% elif role_value == 'manager' %}
+                    <a class="nav-link {{ 'active' if endpoint in ['manager.managed_projects', 'manager.project_submissions', 'manager.review_submission'] else '' }}" href="{{ url_for('manager.managed_projects') }}">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <span>Managed projects</span>
+                    </a>
+                {% elif role_value == 'admin' %}
+                    <a class="nav-link {{ 'active' if endpoint in ['admin.projects', 'admin.create_project', 'admin.edit_project'] else '' }}" href="{{ url_for('admin.projects') }}">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                        </svg>
+                        <span>Projects</span>
+                    </a>
+                    <a class="nav-link {{ 'active' if endpoint == 'admin.users' else '' }}" href="{{ url_for('admin.users') }}">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <span>Users</span>
+                    </a>
+                    <a class="nav-link {{ 'active' if endpoint == 'admin.payouts' else '' }}" href="{{ url_for('admin.payouts') }}">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                        <span>Payouts</span>
+                    </a>
+                {% endif %}
+                
+                <div class="nav-divider"></div>
+                
+                <a class="nav-link text-danger" href="{{ url_for('auth.logout') }}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 21 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Sign out</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">{{ current_user.display_name[0]|upper if current_user.display_name else current_user.email[0]|upper }}</div>
+                    <div class="user-details">
+                        <div class="user-name">{{ current_user.display_name or current_user.email }}</div>
+                        <div class="user-role">{{ current_user.role.value|title }}</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        {% endif %}
+        
+        <main class="app-main">
+            <header class="app-header">
+                <div>
+                    <h1 class="page-title">{{ page_title or 'Dashboard' }}</h1>
+                    {% if subtitle %}
+                    <p class="page-subtitle">{{ subtitle }}</p>
+                    {% endif %}
+                </div>
+                {% if current_user.is_authenticated %}
+                <div class="header-actions">
+                    <div class="user-chip">
+                        <div class="status-dot"></div>
+                        <div>
+                            <strong>{{ current_user.display_name or current_user.email }}</strong>
+                            <span>{{ current_user.role.value|title }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </header>
+            
+            <section class="app-content">
+                {% include 'partials/flash.html' %}
+                {% block content %}{% endblock %}
+            </section>
+        </main>
+    </div>
+    
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div>
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="{{ url_for('dashboard.index') }}">Overview</a></li>
+                    <li><a href="{{ url_for('auth.register') }}">Become a clipper</a></li>
+                    <li><a href="{{ url_for('auth.login') }}">Sign in</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Contact</h4>
+                <ul>
+                    <li><span>Telegram</span> @mmeirbek</li>
+                    <li><span>Phone</span> +7 771 692 72 16</li>
+                    <li><span>Email</span> nurmiko22@gmail.com</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Feedback</h4>
+                <ul>
+                    <li><a href="https://forms.gle/RUcBjYZ9GHzxdZrAA" target="_blank">Leave a review</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 Clipper HQ. Crafted for DACH creators.</span>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Support</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script>
+        // Управление мобильным сайдбаром
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+            const sidebar = document.querySelector('.app-sidebar');
+            
+            if (mobileNavToggle && sidebar) {
+                mobileNavToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+                });
+                
+                // Закрытие при клике вне сайдбара
+                document.addEventListener('click', function(e) {
+                    if (!sidebar.contains(e.target) && !mobileNavToggle.contains(e.target)) {
+                        sidebar.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+        });
+
+        // Telegram WebApp initialization
+        if (window.Telegram && Telegram.WebApp) {
+            Telegram.WebApp.ready();
+            Telegram.WebApp.expand();
+            Telegram.WebApp.setHeaderColor('#ffffff');
+            Telegram.WebApp.setBackgroundColor('#f8fafc');
+        }
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

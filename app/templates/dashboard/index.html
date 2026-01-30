@@ -39,26 +39,345 @@
             <p class="small text-muted">Total earned: {{ current_user.total_earned_cents|euro }}</p>
         </div>
     </div>
-    <div class="card-gleam mb-4">
-        <h4>Fresh briefs</h4>
-        <p class="text-muted">Hand-picked campaigns for the DACH creators.</p>
-        <div class="row g-3">
+    <div class="fresh-briefs-container mb-4">
+        <div class="fresh-briefs-header">
+            <div class="fresh-briefs-title">
+                <div class="fresh-briefs-icon">🎬</div>
+                <div>
+                    <h4>Fresh briefs</h4>
+                    <p class="text-muted">Hand-picked campaigns for the DACH creators</p>
+                </div>
+            </div>
+            <div class="fresh-briefs-stats">
+                <span class="brief-count">{{ latest_projects|length }}</span>
+                <span class="brief-label">Active</span>
+            </div>
+        </div>
+        
+        <div class="briefs-grid">
             {% for project in latest_projects %}
-                <div class="col-md-6">
-                    <div class="project-card h-100">
-                        <div class="d-flex justify-content-between mb-2">
-                            <h5>{{ project.title }}</h5>
-                            <span class="badge rounded-pill bg-dark">{{ project.payment_type.replace('_', ' ') }}</span>
+                <div class="brief-card">
+                    <div class="brief-card-header">
+                        <div class="brief-type-badge">
+                            {% if project.payment_type == 'fix_video' %}
+                                <span class="badge-type fixed">Fixed</span>
+                            {% elif project.payment_type == 'per_view' %}
+                                <span class="badge-type per-view">Per View</span>
+                            {% else %}
+                                <span class="badge-type period">Period</span>
+                            {% endif %}
                         </div>
-                        <p class="text-muted">{{ project.description[:120] }}{% if project.description|length > 120 %}…{% endif %}</p>
-                        <a href="{{ url_for('clipper.project_detail', project_id=project.id) }}" class="btn btn-outline-dark btn-sm">View brief</a>
+                        <div class="brief-reward">
+                            <span class="reward-amount">{{ project.fixed_reward_cents|euro }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="brief-card-body">
+                        <h5 class="brief-title">{{ project.title }}</h5>
+                        <p class="brief-description">{{ project.description[:120] }}{% if project.description|length > 120 %}…{% endif %}</p>
+                        
+                        <div class="brief-meta">
+                            <div class="brief-deadline">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                                <span>{{ project.end_date|timeago if project.end_date else 'No deadline' }}</span>
+                            </div>
+                            <div class="brief-access">
+                                {% if project.access_mode == 'open' %}
+                                    <span class="access-badge open">Open</span>
+                                {% else %}
+                                    <span class="access-badge approval">Approval</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="brief-card-footer">
+                        <a href="{{ url_for('clipper.project_detail', project_id=project.id) }}" class="brief-action-btn">
+                            <span>View brief</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </a>
                     </div>
                 </div>
             {% else %}
-                <div class="col-12">
-                    <p class="text-muted">No projects available right now.</p>
+                <div class="no-briefs">
+                    <div class="no-briefs-icon">📋</div>
+                    <h5>No projects available</h5>
+                    <p class="text-muted">Check back later for fresh opportunities</p>
                 </div>
             {% endfor %}
+        </div>
+    </div>
+
+    <!-- Интерактивные графики заработка -->
+    <div class="earnings-analytics-container mb-4">
+        <div class="analytics-header">
+            <div class="analytics-title">
+                <div class="analytics-icon">📈</div>
+                <div>
+                    <h4>Earnings Analytics</h4>
+                    <p class="text-muted">Track your performance and growth</p>
+                </div>
+            </div>
+            <div class="analytics-controls">
+                <div class="period-selector">
+                    <button class="period-btn active" data-period="7">7D</button>
+                    <button class="period-btn" data-period="30">30D</button>
+                    <button class="period-btn" data-period="90">90D</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="analytics-content">
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h5>Revenue Trend</h5>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <span class="legend-color earnings"></span>
+                            <span>Earnings</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color submissions"></span>
+                            <span>Submissions</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="earningsChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="metric-card primary">
+                    <div class="metric-header">
+                        <div class="metric-icon">💰</div>
+                        <div class="metric-change positive">
+                            <span>↑</span>
+                            <span>24%</span>
+                        </div>
+                    </div>
+                    <div class="metric-value">€1,240</div>
+                    <div class="metric-label">Total Earnings</div>
+                    <div class="metric-subtitle">Last 30 days</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon">📊</div>
+                        <div class="metric-change positive">
+                            <span>↑</span>
+                            <span>12%</span>
+                        </div>
+                    </div>
+                    <div class="metric-value">€342</div>
+                    <div class="metric-label">Avg. Project Value</div>
+                    <div class="metric-subtitle">Per completed project</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon">🎯</div>
+                        <div class="metric-change positive">
+                            <span>↑</span>
+                            <span>8%</span>
+                        </div>
+                    </div>
+                    <div class="metric-value">94.7%</div>
+                    <div class="metric-label">Success Rate</div>
+                    <div class="metric-subtitle">Approval rate</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon">⚡</div>
+                        <div class="metric-change negative">
+                            <span>↓</span>
+                            <span>5%</span>
+                        </div>
+                    </div>
+                    <div class="metric-value">2.3h</div>
+                    <div class="metric-label">Avg. Response Time</div>
+                    <div class="metric-subtitle">To project offers</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Умная панель быстрых действий -->
+    <div class="quick-actions-container mb-4">
+        <div class="quick-actions-header">
+            <div class="quick-actions-title">
+                <div class="quick-actions-icon">⚡</div>
+                <div>
+                    <h4>Quick Actions</h4>
+                    <p class="text-muted">Important tasks and recommendations</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="quick-actions-grid">
+            <div class="action-card urgent">
+                <div class="action-urgency-badge">
+                    <span class="urgency-pulse"></span>
+                    <span>URGENT</span>
+                </div>
+                <div class="action-content">
+                    <h5>Fashion Campaign Deadline</h5>
+                    <p>Summer Fashion Campaign 2024 - 2 days left</p>
+                    <div class="action-meta">
+                        <span class="reward">€450</span>
+                        <span class="deadline">⏰ 2d left</span>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="#" class="action-btn primary">Apply Now</a>
+                        <a href="#" class="action-btn secondary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="action-card recommendation">
+                <div class="action-recommendation-badge">
+                    <span class="recommendation-icon">🎯</span>
+                    <span>95% MATCH</span>
+                </div>
+                <div class="action-content">
+                    <h5>Tech Review Project</h5>
+                    <p>Perfect match for your tech content profile</p>
+                    <div class="action-meta">
+                        <span class="reward">€320</span>
+                        <span class="match">Based on your experience</span>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="#" class="action-btn primary">View Project</a>
+                        <a href="#" class="action-btn secondary">Save for Later</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="action-card pending">
+                <div class="action-pending-badge">
+                    <span class="pending-icon">⏳</span>
+                    <span>PENDING</span>
+                </div>
+                <div class="action-content">
+                    <h5>Submission Review</h5>
+                    <p>Restaurant Chain Promotion - under review</p>
+                    <div class="action-meta">
+                        <span class="reward">€280</span>
+                        <span class="status">Submitted 2h ago</span>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="#" class="action-btn primary">Check Status</a>
+                        <a href="#" class="action-btn secondary">View Submission</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Расширенная аналитика -->
+    <div class="detailed-analytics-container mb-4">
+        <div class="detailed-analytics-header">
+            <div class="detailed-analytics-title">
+                <div class="detailed-analytics-icon">📊</div>
+                <div>
+                    <h4>Performance Analytics</h4>
+                    <p class="text-muted">Detailed insights into your creator performance</p>
+                </div>
+            </div>
+            <div class="analytics-tabs">
+                <button class="tab-btn active" data-tab="overview">Overview</button>
+                <button class="tab-btn" data-tab="projects">Projects</button>
+                <button class="tab-btn" data-tab="trends">Trends</button>
+            </div>
+        </div>
+        
+        <div class="detailed-analytics-content">
+            <div class="tab-content active" id="overview">
+                <div class="overview-grid">
+                    <div class="overview-card">
+                        <h6>Top Performing Categories</h6>
+                        <div class="category-list">
+                            <div class="category-item">
+                                <span class="category-name">Fashion</span>
+                                <div class="category-progress">
+                                    <div class="progress-bar" style="width: 85%"></div>
+                                    <span class="category-value">85%</span>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <span class="category-name">Technology</span>
+                                <div class="category-progress">
+                                    <div class="progress-bar" style="width: 72%"></div>
+                                    <span class="category-value">72%</span>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <span class="category-name">Food</span>
+                                <div class="category-progress">
+                                    <div class="progress-bar" style="width: 68%"></div>
+                                    <span class="category-value">68%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="overview-card">
+                        <h6>Monthly Performance</h6>
+                        <div class="performance-stats">
+                            <div class="perf-stat">
+                                <span class="perf-label">Projects Completed</span>
+                                <span class="perf-value">23</span>
+                            </div>
+                            <div class="perf-stat">
+                                <span class="perf-label">Avg. Completion Time</span>
+                                <span class="perf-value">1.8 days</span>
+                            </div>
+                            <div class="perf-stat">
+                                <span class="perf-label">Client Satisfaction</span>
+                                <span class="perf-value">4.8/5.0</span>
+                            </div>
+                            <div class="perf-stat">
+                                <span class="perf-label">Repeat Clients</span>
+                                <span class="perf-value">67%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="overview-card">
+                        <h6>Recent Activity</h6>
+                        <div class="activity-timeline">
+                            <div class="activity-item">
+                                <div class="activity-dot success"></div>
+                                <div class="activity-content">
+                                    <span class="activity-title">Project Approved</span>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-dot info"></div>
+                                <div class="activity-content">
+                                    <span class="activity-title">New Project Applied</span>
+                                    <span class="activity-time">5 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-dot success"></div>
+                                <div class="activity-content">
+                                    <span class="activity-title">Payment Received</span>
+                                    <span class="activity-time">1 day ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endif %}

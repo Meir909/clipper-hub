@@ -1,523 +1,7 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/base_new.html' %}
 {% set page_title = 'Sign Up' %}
 
 {% block content %}
-<style>
-/* Современные стили для страницы регистрации */
-.auth-page {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #667eea 100%);
-    min-height: 100vh;
-    position: relative;
-    overflow: hidden;
-}
-
-.auth-page::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
-    animation: float 20s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    33% { transform: translateY(-20px) rotate(120deg); }
-    66% { transform: translateY(20px) rotate(240deg); }
-}
-
-.auth-container {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 10;
-    padding: 2rem 1rem;
-}
-
-.auth-card {
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(30px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 24px;
-    padding: 3rem;
-    width: 100%;
-    max-width: 520px;
-    box-shadow: 
-        0 30px 60px rgba(0, 0, 0, 0.15),
-        0 0 0 1px rgba(255, 255, 255, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
-    position: relative;
-    z-index: 20;
-    animation: slideUp 0.8s ease-out;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.auth-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #f093fb, #f5576c, #667eea);
-    border-radius: 24px 24px 0 0;
-    background-size: 200% 100%;
-    animation: gradientShift 3s ease-in-out infinite;
-}
-
-@keyframes gradientShift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-
-.auth-header {
-    text-align: center;
-    margin-bottom: 2.5rem;
-    position: relative;
-}
-
-.auth-logo {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 1.5rem;
-    background: linear-gradient(135deg, #f093fb, #f5576c);
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    color: white;
-    font-weight: bold;
-    box-shadow: 0 10px 30px rgba(240, 147, 251, 0.3);
-    animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-
-.auth-title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #1a202c;
-    margin-bottom: 0.5rem;
-    background: linear-gradient(135deg, #f093fb, #f5576c);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.auth-subtitle {
-    color: #718096;
-    font-size: 1rem;
-    font-weight: 400;
-}
-
-.auth-form {
-    margin-bottom: 2rem;
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-    position: relative;
-}
-
-.form-label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #4a5568;
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.form-input {
-    width: 100%;
-    padding: 1rem 1.25rem;
-    border: 2px solid #e2e8f0;
-    border-radius: 12px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-}
-
-.form-input:focus {
-    outline: none;
-    border-color: #f093fb;
-    box-shadow: 0 0 0 4px rgba(240, 147, 251, 0.1);
-    background: white;
-}
-
-.password-field {
-    position: relative;
-}
-
-.password-toggle {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: #718096;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-.password-toggle:hover {
-    background: rgba(240, 147, 251, 0.1);
-    color: #f093fb;
-}
-
-.terms-checkbox {
-    margin-bottom: 2rem;
-}
-
-.checkbox-wrapper {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-}
-
-.checkbox-input {
-    width: 18px;
-    height: 18px;
-    accent-color: #f093fb;
-    margin-top: 2px;
-}
-
-.checkbox-label {
-    color: #4a5568;
-    font-size: 0.9rem;
-    line-height: 1.5;
-}
-
-.checkbox-label a {
-    color: #f093fb;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-.checkbox-label a:hover {
-    color: #f5576c;
-}
-
-.auth-button {
-    width: 100%;
-    padding: 1rem 2rem;
-    background: linear-gradient(135deg, #f093fb, #f5576c);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(240, 147, 251, 0.3);
-    position: relative;
-    overflow: hidden;
-}
-
-.auth-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
-}
-
-.auth-button:hover::before {
-    left: 100%;
-}
-
-.auth-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 15px 40px rgba(240, 147, 251, 0.4);
-}
-
-.auth-divider {
-    text-align: center;
-    margin: 2rem 0;
-    position: relative;
-}
-
-.auth-divider::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
-}
-
-.auth-divider span {
-    background: white;
-    padding: 0 1rem;
-    color: #718096;
-    font-size: 0.9rem;
-    position: relative;
-    z-index: 1;
-}
-
-.social-auth {
-    margin-bottom: 2rem;
-}
-
-.social-button {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    padding: 1rem;
-    background: white;
-    border: 2px solid #e2e8f0;
-    border-radius: 12px;
-    color: #4a5568;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-}
-
-.social-button:hover {
-    border-color: #f093fb;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
-}
-
-.auth-footer {
-    text-align: center;
-    color: #718096;
-    font-size: 0.9rem;
-}
-
-.auth-footer a {
-    color: #f093fb;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-.auth-footer a:hover {
-    color: #f5576c;
-}
-
-/* Адаптивность */
-@media (max-width: 768px) {
-    .auth-card {
-        padding: 2rem;
-        margin: 1rem;
-    }
-    
-    .auth-title {
-        font-size: 1.5rem;
-    }
-    
-    .auth-logo {
-        width: 60px;
-        height: 60px;
-        font-size: 1.5rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .auth-card {
-        padding: 1.5rem;
-    }
-    
-    .checkbox-wrapper {
-        align-items: flex-start;
-    }
-    
-    .checkbox-label {
-        font-size: 0.8rem;
-    }
-}
-</style>
-
-<div class="auth-container">
-    <div class="auth-card">
-        <div class="auth-header">
-            <div class="auth-logo">CQ</div>
-            <h1 class="auth-title">Create Account</h1>
-            <p class="auth-subtitle">Join ClipperHQ and start earning</p>
-        </div>
-        
-        <form class="auth-form" method="POST">
-            {{ form.hidden_tag() }}
-            
-            <div class="form-group">
-                {{ form.display_name.label(class="form-label") }}
-                {{ form.display_name(class="form-input", placeholder="Enter your display name") }}
-            </div>
-            
-            <div class="form-group">
-                {{ form.email.label(class="form-label") }}
-                {{ form.email(class="form-input", placeholder="Enter your email") }}
-            </div>
-            
-            <div class="form-group">
-                {{ form.password.label(class="form-label") }}
-                <div class="password-field">
-                    {{ form.password(class="form-input", placeholder="Create a strong password") }}
-                    <button type="button" class="password-toggle" onclick="togglePassword()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                {{ form.confirm_password.label(class="form-label") }}
-                <div class="password-field">
-                    {{ form.confirm_password(class="form-input", placeholder="Confirm your password") }}
-                    <button type="button" class="password-toggle" onclick="toggleConfirmPassword()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="terms-checkbox">
-                <div class="checkbox-wrapper">
-                    {{ form.accept_terms(class="checkbox-input") }}
-                    {{ form.accept_terms.label(class="checkbox-label") }}
-                </div>
-            </div>
-            
-            <button type="submit" class="auth-button">
-                Create Account
-            </button>
-        </form>
-        
-        <div class="auth-divider">
-            <span>or sign up with</span>
-        </div>
-        
-        <div class="social-auth">
-            <a href="{{ url_for('auth.google_login') }}" class="social-button">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                </svg>
-                <span>Continue with Google</span>
-            </a>
-        </div>
-        
-        <!-- Тестовые аккаунты -->
-        <div class="test-accounts-info">
-            <div class="test-accounts-header">
-                <span class="test-icon">🧪</span>
-                <span class="test-title">Test Accounts</span>
-            </div>
-            <div class="test-accounts-grid">
-                <div class="test-account">
-                    <div class="test-role clipper">Clipper</div>
-                    <div class="test-details">
-                        <div class="test-email">anna.schmidt@gmail.com</div>
-                        <div class="test-password">test123</div>
-                    </div>
-                </div>
-                <div class="test-account">
-                    <div class="test-role admin">Admin</div>
-                    <div class="test-details">
-                        <div class="test-email">admin@clipperhq.com</div>
-                        <div class="test-password">admin123</div>
-                    </div>
-                </div>
-                <div class="test-account">
-                    <div class="test-role manager">Manager</div>
-                    <div class="test-details">
-                        <div class="test-email">manager@clipperhq.com</div>
-                        <div class="test-password">manager123</div>
-                    </div>
-                </div>
-            </div>
-            <div class="test-note">
-                <strong>💡 Pro Tip:</strong> Click any account card to instantly fill the registration form and explore different user roles!
-            </div>
-        </div>
-        
-        <div class="auth-footer">
-            <p>Already have an account? <a href="{{ url_for('auth.login') }}">Sign in</a></p>
-        </div>
-    </div>
-</div>
-
-<script>
-function togglePassword() {
-    const passwordInput = document.getElementById('password');
-    const toggleButton = document.querySelector('.password-field:first-child .password-toggle svg');
-    
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        toggleButton.innerHTML = `
-            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-            <line x1="1" y1="1" x2="23" y2="23"></line>
-        `;
-    } else {
-        passwordInput.type = 'password';
-        toggleButton.innerHTML = `
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-            <circle cx="12" cy="12" r="3"></circle>
-        `;
-    }
-}
-
-function toggleConfirmPassword() {
-    const passwordInput = document.getElementById('confirm_password');
-    const toggleButton = document.querySelector('.password-field:last-child .password-toggle svg');
-    
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        toggleButton.innerHTML = `
-            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-            <line x1="1" y1="1" x2="23" y2="23"></line>
-        `;
-    } else {
-        passwordInput.type = 'password';
-        toggleButton.innerHTML = `
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-            <circle cx="12" cy="12" r="3"></circle>
-        `;
-    }
-}
-</script>
-{% endblock %}
 <style>
 /* Встроенные стили для страницы регистрации */
 .auth-container {
@@ -758,14 +242,13 @@ function toggleConfirmPassword() {
 
 .social-auth {
     display: flex;
-    justify-content: center;
+    gap: 1rem;
     margin-bottom: 2rem;
 }
 
 .social-button {
-    width: 100%;
-    max-width: 300px;
-    padding: 1rem;
+    flex: 1;
+    padding: 0.75rem;
     border: 2px solid #e2e8f0;
     background: white;
     border-radius: 10px;
@@ -774,23 +257,16 @@ function toggleConfirmPassword() {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
-    font-size: 0.95rem;
+    gap: 0.5rem;
+    font-size: 0.9rem;
     color: #4a5568;
     text-decoration: none;
-    font-weight: 500;
 }
 
 .social-button:hover {
     background: #f8fafc;
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border-color: #cbd5e0;
-}
-
-.social-button svg {
-    width: 22px;
-    height: 22px;
 }
 
 .auth-footer {
@@ -889,10 +365,6 @@ function toggleConfirmPassword() {
     
     .social-auth {
         flex-direction: column;
-    }
-    
-    .social-button {
-        max-width: none;
     }
 }
 
@@ -1067,49 +539,21 @@ function toggleConfirmPassword() {
         </div>
         
         <div class="social-auth">
-            <a href="{{ url_for('auth.google_login') }}" class="social-button">
+            <a href="#" class="social-button">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                     <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                     <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                     <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
-                <span>Continue with Google</span>
+                <span>Google</span>
             </a>
-        </div>
-        
-        <!-- Тестовые аккаунты -->
-        <div class="test-accounts-info">
-            <div class="test-accounts-header">
-                <span class="test-icon">🧪</span>
-                <span class="test-title">Test Accounts</span>
-            </div>
-            <div class="test-accounts-grid">
-                <div class="test-account">
-                    <div class="test-role clipper">Clipper</div>
-                    <div class="test-details">
-                        <div class="test-email">anna.schmidt@gmail.com</div>
-                        <div class="test-password">test123</div>
-                    </div>
-                </div>
-                <div class="test-account">
-                    <div class="test-role admin">Admin</div>
-                    <div class="test-details">
-                        <div class="test-email">admin@clipperhq.com</div>
-                        <div class="test-password">admin123</div>
-                    </div>
-                </div>
-                <div class="test-account">
-                    <div class="test-role manager">Manager</div>
-                    <div class="test-details">
-                        <div class="test-email">manager@clipperhq.com</div>
-                        <div class="test-password">manager123</div>
-                    </div>
-                </div>
-            </div>
-            <div class="test-note">
-                <strong>💡 Pro Tip:</strong> Click any account card to instantly fill the registration form and explore different user roles!
-            </div>
+            <a href="#" class="social-button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+                <span>Facebook</span>
+            </a>
         </div>
         
         <div class="auth-footer">

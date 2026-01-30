@@ -2,12 +2,14 @@ from __future__ import annotations
 
 import hmac
 import hashlib
+import os
 from urllib.parse import parse_qs
 
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import Blueprint, flash, redirect, render_template, request, url_for, session, jsonify
 from flask_login import current_user, login_required, login_user, logout_user
+from authlib.integrations.flask_client import OAuth
 
-from app.extensions import db
+from app.extensions import db, oauth
 from app.forms.auth_forms import ClipperRegisterForm, LoginForm
 from app.models import Role, User
 
@@ -124,3 +126,70 @@ def tg_login():
 
     login_user(user)
     return redirect(url_for("dashboard.index"))
+
+
+# Google OAuth
+@auth_bp.route("/login/google")
+def google_login():
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard.index"))
+    
+    redirect_uri = url_for('auth.google_callback', _external=True)
+    return oauth.google.authorize_redirect(redirect_uri)
+
+
+@auth_bp.route("/login/google/callback")
+def google_callback():
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard.index"))
+    
+    try:
+        token = oauth.google.authorize_access_token()
+        user_info = token.get('userinfo')
+        
+        if not user_info:
+            flash("Failed to get user info from Google", "danger")
+            return redirect(url_for("auth.login"))
+        
+        # Получаем email и имя пользователя
+        email = user_info.get('email')
+        if not email:
+            flash("Email is required from Google", "danger")
+            return redirect(url_for("auth.login"))
+        
+        # Ищем пользователя по email
+        user = User.query.filter_by(email=email.lower()).first()
+        
+        if not user:
+            # Создаем нового пользователя
+            given_name = user_info.get('given_name', '')
+            family_name = user_info.get('family_name', '')
+            display_name = f"{given_name} {family_name}".strip() or user_info.get('name', 'Google User')
+            
+            user = User(
+                email=email.lower(),
+                role=Role.CLIPPER,
+                display_name=display_name,
+                google_id=user_info.get('sub'),
+                avatar_url=user_info.get('picture')
+            )
+            user.set_password(os.urandom(24).hex())  # Случайный пароль
+            db.session.add(user)
+            db.session.commit()
+            flash(f"Welcome to Clipper platform, {display_name}!", "success")
+        else:
+            # Обновляем информацию о пользователе
+            if not user.google_id:
+                user.google_id = user_info.get('sub')
+            if not user.avatar_url:
+                user.avatar_url = user_info.get('picture')
+            db.session.commit()
+            flash("Welcome back!", "success")
+        
+        login_user(user)
+        next_url = request.args.get("next") or url_for("dashboard.index")
+        return redirect(next_url)
+        
+    except Exception as e:
+        flash(f"Google login failed: {str(e)}", "danger")
+        return redirect(url_for("auth.login"))

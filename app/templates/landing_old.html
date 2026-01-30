@@ -1,0 +1,364 @@
+{% extends 'layouts/base.html' %}
+{% set page_title = 'Clipper - Content Creator Platform' %}
+
+{% block content %}
+<!-- Landing Hero Section -->
+<section class="landing-hero">
+    <div class="halo"></div>
+    <div class="grid-accent"></div>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="landing-copy">
+                    <h1 class="display-3 fw-bold mb-4">Create. Earn. Grow.</h1>
+                    <p class="lead mb-4">
+                        Premium DACH campaigns await talented creators. Join Clipper HQ and turn your creativity into consistent income with hand-picked briefs and reliable payouts.
+                    </p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">Get Started</a>
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-lg">Sign In</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="landing-showcase">
+                    <div class="orbit-ring"></div>
+                    <div class="kinetic-orb"></div>
+                    <div class="vertical-ticker">
+                        <ul>
+                            <li><span>€250</span> <span>Campaign</span></li>
+                            <li><span>€450</span> <span>Campaign</span></li>
+                            <li><span>€320</span> <span>Campaign</span></li>
+                            <li><span>€180</span> <span>Campaign</span></li>
+                            <li><span>€520</span> <span>Campaign</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-footnotes">
+            <div class="footnote-card">
+                <small>Active Creators</small>
+                <strong>2,847</strong>
+                <span>Across DACH region</span>
+            </div>
+            <div class="footnote-card">
+                <small>Avg. Monthly</small>
+                <strong>€1,240</strong>
+                <span>Per creator</span>
+            </div>
+            <div class="footnote-card">
+                <small>Payout Rate</small>
+                <strong>98.2%</strong>
+                <span>On-time delivery</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="landing-section reveal">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Why Choose Clipper HQ?</h2>
+            <p class="lead text-muted">Premium opportunities designed for serious content creators</p>
+        </div>
+        
+        <div class="landing-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h5>Curated EU briefs</h5>
+                <p>Only premium DACH campaigns with clear deliverables, usage rights, and KPI expectations.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✅</div>
+                <h5>Manual QC & payouts</h5>
+                <p>Each submission is reviewed by a human manager who messages you directly on Telegram/phone.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h5>Creator-friendly limits</h5>
+                <p>Daily submission caps, transparent earnings, and payouts starting at €20.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h5>Analytics snapshots</h5>
+                <p>Track approvals, views, and manual balance adjustments from a minimalist dashboard.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Metrics Section -->
+<section class="data-lattice reveal">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold text-white">Real Results for Real Creators</h2>
+            <p class="lead text-white-50">Join thousands of creators already earning with Clipper HQ</p>
+        </div>
+        
+        <div class="lattice-grid">
+            <div class="lattice-card">
+                <small>Total Payouts</small>
+                <strong>€2.4M</strong>
+                <span>Last 12 months</span>
+            </div>
+            <div class="lattice-card">
+                <small>Active Campaigns</small>
+                <strong>147</strong>
+                <span>Live right now</span>
+            </div>
+            <div class="lattice-card">
+                <small>Success Rate</small>
+                <strong>94.7%</strong>
+                <span>Approval rate</span>
+            </div>
+            <div class="lattice-card">
+                <small>Avg. Response</small>
+                <strong>2.3h</strong>
+                <span>Manager reply time</span>
+            </div>
+        </div>
+        
+        <div class="glow-divider"></div>
+        
+        <div class="text-center">
+            <h3 class="text-white mb-3">Trusted by Leading Brands</h3>
+            <div class="press-grid">
+                <span>BMW</span>
+                <span>Audi</span>
+                <span>Mercedes</span>
+                <span>Volkswagen</span>
+                <span>Porsche</span>
+                <span>Opel</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="landing-section reveal">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">How It Works</h2>
+            <p class="lead text-muted">Start earning in 3 simple steps</p>
+        </div>
+        
+        <div class="case-study">
+            <div class="case-card">
+                <h4>1. Sign Up</h4>
+                <p>Create your account in under 2 minutes. No credit card required.</p>
+                <ul>
+                    <li>Basic profile information</li>
+                    <li>Portfolio samples</li>
+                    <li>Quick verification</li>
+                </ul>
+            </div>
+            <div class="case-card">
+                <h4>2. Browse Campaigns</h4>
+                <p>Access exclusive DACH campaigns tailored to your content style.</p>
+                <ul>
+                    <li>Filter by category & budget</li>
+                    <li>Detailed requirements</li>
+                    <li>Direct brand contact</li>
+                </ul>
+            </div>
+            <div class="case-card">
+                <h4>3. Create & Earn</h4>
+                <p>Submit your work, get approved, and receive payments directly.</p>
+                <ul>
+                    <li>Submit content</li>
+                    <li>Manager review</li>
+                    <li>Get paid instantly</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="landing-section reveal">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Creator Success Stories</h2>
+            <p class="lead text-muted">Hear from creators already thriving on Clipper HQ</p>
+        </div>
+        
+        <div class="testimonial-grid">
+            <div class="card-gleam">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="user-avatar me-3">S</div>
+                    <div>
+                        <h6 class="mb-0">Sarah Müller</h6>
+                        <small class="text-muted">Lifestyle Creator</small>
+                    </div>
+                </div>
+                <p>"Clipper HQ transformed my content creation journey. The quality of campaigns and reliable payouts are unmatched."</p>
+                <div class="badge-soft-success">€3,200/mo</div>
+            </div>
+            
+            <div class="card-gleam">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="user-avatar me-3">M</div>
+                    <div>
+                        <h6 class="mb-0">Markus Weber</h6>
+                        <small class="text-muted">Tech Reviewer</small>
+                    </div>
+                </div>
+                <p>"Finally a platform that values creators. The personal manager support makes all the difference."</p>
+                <div class="badge-soft-warning">€2,800/mo</div>
+            </div>
+            
+            <div class="card-gleam">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="user-avatar me-3">L</div>
+                    <div>
+                        <h6 class="mb-0">Lisa Schmidt</h6>
+                        <small class="text-muted">Fashion Influencer</small>
+                    </div>
+                </div>
+                <p>"The DACH focus means campaigns that actually resonate with my audience. Perfect match!"</p>
+                <div class="badge-soft-muted">€4,100/mo</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="landing-section reveal">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Frequently Asked Questions</h2>
+            <p class="lead text-muted">Everything you need to know about Clipper HQ</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>How quickly can I start earning?</summary>
+                        <p>Most creators start earning within their first week. After sign-up and verification, you can immediately browse and apply for campaigns.</p>
+                    </details>
+                    
+                    <details class="faq-item">
+                        <summary>What are the payment terms?</summary>
+                        <p>Payouts start at €20 and are processed within 24 hours of approval. We support PayPal, bank transfer, and cryptocurrency options.</p>
+                    </details>
+                    
+                    <details class="faq-item">
+                        <summary>Is there a minimum follower count?</summary>
+                        <p>We focus on quality over quantity. While there's no strict minimum, we look for engagement rates and content quality rather than just follower count.</p>
+                    </details>
+                    
+                    <details class="faq-item">
+                        <summary>Can I work with multiple platforms?</summary>
+                        <p>Absolutely! We encourage creators to work across multiple platforms as long as you meet each campaign's specific requirements.</p>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-banner reveal">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h3 class="text-white mb-3">Ready to Start Your Creator Journey?</h3>
+                <p class="text-white-50 mb-0">Join thousands of creators earning premium rates with DACH's top brands.</p>
+                <div class="cta-badges">
+                    <span class="cta-badge">No Credit Card</span>
+                    <span class="cta-badge">Instant Setup</span>
+                    <span class="cta-badge">Cancel Anytime</span>
+                </div>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">Get Started Now</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer reveal">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h6>Navigation</h6>
+                <ul>
+                    <li><a href="{{ url_for('dashboard.index') }}">Overview</a></li>
+                    <li><a href="{{ url_for('auth.register') }}">Become a clipper</a></li>
+                    <li><a href="{{ url_for('auth.login') }}">Sign in</a></li>
+                </ul>
+            </div>
+            <div>
+                <h6>Contact</h6>
+                <ul>
+                    <li><span>Telegram</span> @mmeirbek</li>
+                    <li><span>Phone</span> +7 771 692 72 16</li>
+                    <li><span>Email</span> nurmiko22@gmail.com</li>
+                </ul>
+            </div>
+            <div>
+                <h6>Feedback</h6>
+                <ul>
+                    <li><a href="https://forms.gle/RUcBjYZ9GHzxdZrAA" target="_blank">Leave a review</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-stats">
+            <div>
+                <small>Creators</small>
+                <strong>2.8K+</strong>
+            </div>
+            <div>
+                <small>Campaigns</small>
+                <strong>147</strong>
+            </div>
+            <div>
+                <small>Payouts</small>
+                <strong>€2.4M</strong>
+            </div>
+            <div>
+                <small>Countries</small>
+                <strong>3</strong>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="d-flex justify-content-between align-items-center">
+                <span>© 2026 Clipper HQ. Crafted for DACH creators.</span>
+                <div class="footer-links">
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                    <a href="#">Support</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+// Reveal animations on scroll
+document.addEventListener('DOMContentLoaded', function() {
+    const reveals = document.querySelectorAll('.reveal');
+    
+    function reveal() {
+        reveals.forEach(element => {
+            const windowHeight = window.innerHeight;
+            const elementTop = element.getBoundingClientRect().top;
+            const elementVisible = 150;
+            
+            if (elementTop < windowHeight - elementVisible) {
+                element.classList.add('visible');
+            }
+        });
+    }
+    
+    reveal();
+    window.addEventListener('scroll', reveal);
+});
+</script>
+{% endblock %}

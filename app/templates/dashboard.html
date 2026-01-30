@@ -1,0 +1,866 @@
+{% extends 'layouts/base_new.html' %}
+{% set page_title = 'Dashboard' %}
+{% set subtitle = 'Welcome back to your creator dashboard' %}
+
+{% block content %}
+<style>
+/* Встроенные стили для дашборда */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 20px 20px 0 0;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: #4a5568;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat-change {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.stat-change.positive {
+    background: rgba(72, 187, 119, 0.1);
+    color: #38a169;
+}
+
+.stat-change.negative {
+    background: rgba(245, 101, 101, 0.1);
+    color: #e53e3e;
+}
+
+/* Секции */
+.content-section {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+    margin-bottom: 2rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0;
+}
+
+.section-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-section {
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: #f8fafc;
+    color: #4a5568;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-secondary:hover {
+    background: #e2e8f0;
+    transform: translateY(-1px);
+}
+
+/* Таблицы */
+.table-container {
+    overflow-x: auto;
+    border-radius: 15px;
+    border: 1px solid #e2e8f0;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.data-table th {
+    background: #f8fafc;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #1a202c;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.data-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    color: #4a5568;
+}
+
+.data-table tr:hover {
+    background: #f8fafc;
+}
+
+.table-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status-active {
+    background: rgba(72, 187, 119, 0.1);
+    color: #38a169;
+}
+
+.status-pending {
+    background: rgba(237, 137, 54, 0.1);
+    color: #dd6b20;
+}
+
+.status-completed {
+    background: rgba(102, 126, 234, 0.1);
+    color: #5a67d8;
+}
+
+.status-rejected {
+    background: rgba(245, 101, 101, 0.1);
+    color: #e53e3e;
+}
+
+/* Карточки проектов */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.project-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 1.5rem;
+}
+
+.project-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0 0 0.5rem 0;
+}
+
+.project-brand {
+    color: #4a5568;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.project-budget {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #667eea;
+}
+
+.project-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: #718096;
+    font-size: 0.8rem;
+}
+
+.project-description {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.project-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-project {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-size: 0.9rem;
+    min-width: 120px;
+}
+
+.btn-apply {
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    color: white;
+    box-shadow: 0 4px 15px rgba(72, 187, 119, 0.3);
+}
+
+.btn-apply:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(72, 187, 119, 0.4);
+}
+
+.btn-view {
+    background: #f8fafc;
+    color: #4a5568;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-view:hover {
+    background: #e2e8f0;
+    transform: translateY(-1px);
+}
+
+/* График */
+.chart-container {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.chart-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0;
+}
+
+.chart-period {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.period-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #4a5568;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.period-btn.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-color: transparent;
+}
+
+.period-btn:hover:not(.active) {
+    background: #f8fafc;
+}
+
+.chart-placeholder {
+    height: 300px;
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #718096;
+    font-style: italic;
+}
+
+/* Уведомления */
+.alert {
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.alert-success {
+    background: rgba(72, 187, 119, 0.1);
+    color: #38a169;
+    border-left: 4px solid #48bb78;
+}
+
+.alert-warning {
+    background: rgba(237, 137, 54, 0.1);
+    color: #dd6b20;
+    border-left: 4px solid #ed8936;
+}
+
+.alert-info {
+    background: rgba(102, 126, 234, 0.1);
+    color: #5a67d8;
+    border-left: 4px solid #667eea;
+}
+
+.alert-icon {
+    font-size: 1.2rem;
+}
+
+/* Пустое состояние */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #718096;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #4a5568;
+}
+
+.empty-description {
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .content-section {
+        padding: 1.5rem;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .section-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .project-actions {
+        flex-direction: column;
+    }
+    
+    .btn-project {
+        width: 100%;
+    }
+    
+    .chart-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .chart-period {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .table-container {
+        border-radius: 10px;
+    }
+    
+    .data-table {
+        font-size: 0.8rem;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 0.75rem 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stat-value {
+        font-size: 2rem;
+    }
+    
+    .project-card {
+        padding: 1.5rem;
+    }
+    
+    .content-section {
+        padding: 1rem;
+    }
+}
+
+/* Анимации */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-in-left {
+    opacity: 0;
+    transform: translateX(-30px);
+    animation: slideInLeft 0.6s ease forwards;
+}
+
+@keyframes slideInLeft {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.slide-in-right {
+    opacity: 0;
+    transform: translateX(30px);
+    animation: slideInRight 0.6s ease forwards;
+}
+
+@keyframes slideInRight {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Задержки анимаций */
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+</style>
+
+<!-- Статистика -->
+<div class="dashboard-grid">
+    <div class="stat-card fade-in">
+        <div class="stat-header">
+            <div class="stat-icon">💰</div>
+            <div class="stat-change positive">
+                <span>↑</span>
+                <span>12%</span>
+            </div>
+        </div>
+        <div class="stat-value">€1,240</div>
+        <div class="stat-label">Monthly Earnings</div>
+    </div>
+    
+    <div class="stat-card fade-in delay-1">
+        <div class="stat-header">
+            <div class="stat-icon">📊</div>
+            <div class="stat-change positive">
+                <span>↑</span>
+                <span>8%</span>
+            </div>
+        </div>
+        <div class="stat-value">94.7%</div>
+        <div class="stat-label">Approval Rate</div>
+    </div>
+    
+    <div class="stat-card fade-in delay-2">
+        <div class="stat-header">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-change positive">
+                <span>↑</span>
+                <span>15%</span>
+            </div>
+        </div>
+        <div class="stat-value">23</div>
+        <div class="stat-label">Active Projects</div>
+    </div>
+    
+    <div class="stat-card fade-in delay-3">
+        <div class="stat-header">
+            <div class="stat-icon">⏱️</div>
+            <div class="stat-change negative">
+                <span>↓</span>
+                <span>5%</span>
+            </div>
+        </div>
+        <div class="stat-value">2.3h</div>
+        <div class="stat-label">Avg. Response Time</div>
+    </div>
+</div>
+
+<!-- График -->
+<div class="chart-container slide-in-left">
+    <div class="chart-header">
+        <h3 class="chart-title">Earnings Overview</h3>
+        <div class="chart-period">
+            <button class="period-btn">Week</button>
+            <button class="period-btn active">Month</button>
+            <button class="period-btn">Year</button>
+        </div>
+    </div>
+    <div class="chart-placeholder">
+        <div>📈 Earnings chart will be displayed here</div>
+    </div>
+</div>
+
+<!-- Доступные проекты -->
+<div class="content-section slide-in-right">
+    <div class="section-header">
+        <h3 class="section-title">Available Projects</h3>
+        <div class="section-actions">
+            <a href="{{ url_for('clipper.projects') }}" class="btn-section btn-secondary">View All</a>
+            <a href="{{ url_for('clipper.projects') }}" class="btn-section btn-primary">Browse Projects</a>
+        </div>
+    </div>
+    
+    <div class="projects-grid">
+        <div class="project-card fade-in">
+            <div class="project-header">
+                <div>
+                    <h4 class="project-title">Summer Fashion Campaign</h4>
+                    <div class="project-brand">Premium Fashion Brand</div>
+                </div>
+                <div class="project-budget">€450</div>
+            </div>
+            
+            <div class="project-meta">
+                <div class="meta-item">
+                    <span>📱</span>
+                    <span>Instagram</span>
+                </div>
+                <div class="meta-item">
+                    <span>🎯</span>
+                    <span>Lifestyle</span>
+                </div>
+                <div class="meta-item">
+                    <span>⏰</span>
+                    <span>3 days left</span>
+                </div>
+            </div>
+            
+            <p class="project-description">
+                Looking for lifestyle influencers to showcase our summer collection. High-quality photos required, engagement-focused content.
+            </p>
+            
+            <div class="project-actions">
+                <a href="#" class="btn-project btn-apply">Apply Now</a>
+                <a href="#" class="btn-project btn-view">View Details</a>
+            </div>
+        </div>
+        
+        <div class="project-card fade-in delay-1">
+            <div class="project-header">
+                <div>
+                    <h4 class="project-title">Tech Product Launch</h4>
+                    <div class="project-brand">Tech Startup</div>
+                </div>
+                <div class="project-budget">€320</div>
+            </div>
+            
+            <div class="project-meta">
+                <div class="meta-item">
+                    <span>📹</span>
+                    <span>YouTube</span>
+                </div>
+                <div class="meta-item">
+                    <span>💻</span>
+                    <span>Technology</span>
+                </div>
+                <div class="meta-item">
+                    <span>⏰</span>
+                    <span>5 days left</span>
+                </div>
+            </div>
+            
+            <p class="project-description">
+                Seeking tech reviewers for our new product launch. Honest reviews preferred, detailed unboxing experience required.
+            </p>
+            
+            <div class="project-actions">
+                <a href="#" class="btn-project btn-apply">Apply Now</a>
+                <a href="#" class="btn-project btn-view">View Details</a>
+            </div>
+        </div>
+        
+        <div class="project-card fade-in delay-2">
+            <div class="project-header">
+                <div>
+                    <h4 class="project-title">Food & Beverage Campaign</h4>
+                    <div class="project-brand">Restaurant Chain</div>
+                </div>
+                <div class="project-budget">€280</div>
+            </div>
+            
+            <div class="project-meta">
+                <div class="meta-item">
+                    <span>🍽️</span>
+                    <span>Food</span>
+                </div>
+                <div class="meta-item">
+                    <span>📸</span>
+                    <span>Photography</span>
+                </div>
+                <div class="meta-item">
+                    <span>⏰</span>
+                    <span>7 days left</span>
+                </div>
+            </div>
+            
+            <p class="project-description">
+                Food photographers needed for our new menu campaign. Professional food styling experience required.
+            </p>
+            
+            <div class="project-actions">
+                <a href="#" class="btn-project btn-apply">Apply Now</a>
+                <a href="#" class="btn-project btn-view">View Details</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Последние сабмишены -->
+<div class="content-section slide-in-left">
+    <div class="section-header">
+        <h3 class="section-title">Recent Submissions</h3>
+        <div class="section-actions">
+            <a href="{{ url_for('clipper.my_submissions') }}" class="btn-section btn-secondary">View All</a>
+        </div>
+    </div>
+    
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Submitted</th>
+                    <th>Status</th>
+                    <th>Earnings</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div>
+                            <strong>Summer Fashion Campaign</strong>
+                            <div style="font-size: 0.8rem; color: #718096;">Premium Fashion Brand</div>
+                        </div>
+                    </td>
+                    <td>2 hours ago</td>
+                    <td>
+                        <span class="table-status status-pending">Pending Review</span>
+                    </td>
+                    <td>€450</td>
+                    <td>
+                        <a href="#" class="btn-section btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.8rem;">View</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            <strong>Tech Product Review</strong>
+                            <div style="font-size: 0.8rem; color: #718096;">Tech Startup</div>
+                        </div>
+                    </td>
+                    <td>1 day ago</td>
+                    <td>
+                        <span class="table-status status-completed">Approved</span>
+                    </td>
+                    <td>€320</td>
+                    <td>
+                        <a href="#" class="btn-section btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.8rem;">View</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            <strong>Lifestyle Photography</strong>
+                            <div style="font-size: 0.8rem; color: #718096;">Fashion Brand</div>
+                        </div>
+                    </td>
+                    <td>3 days ago</td>
+                    <td>
+                        <span class="table-status status-active">In Progress</span>
+                    </td>
+                    <td>€380</td>
+                    <td>
+                        <a href="#" class="btn-section btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.8rem;">View</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Уведомления -->
+{% if current_user.is_authenticated %}
+<div class="alert alert-info fade-in">
+    <span class="alert-icon">ℹ️</span>
+    <div>
+        <strong>Welcome back!</strong> You have 3 new project opportunities waiting for your review.
+    </div>
+</div>
+{% endif %}
+
+<script>
+// Интерактивность для периода графика
+document.addEventListener('DOMContentLoaded', function() {
+    const periodButtons = document.querySelectorAll('.period-btn');
+    
+    periodButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            periodButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Здесь можно добавить логику загрузки данных для разных периодов
+            console.log('Selected period:', this.textContent);
+        });
+    });
+    
+    // Анимация при наведении на карточки
+    const projectCards = document.querySelectorAll('.project-card');
+    projectCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(-5px) scale(1)';
+        });
+    });
+});
+</script>
+{% endblock %}
