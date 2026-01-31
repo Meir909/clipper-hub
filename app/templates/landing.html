@@ -1,4 +1,4 @@
-{% extends 'layouts/base_new.html' %}
+{% extends 'layouts/base.html' %}
 {% set page_title = 'Clipper HQ - Premium Content Creator Platform' %}
 
 {% block content %}
@@ -74,11 +74,15 @@
     border-radius: 50px;
     font-weight: 600;
     text-decoration: none;
-    transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
     font-size: 1.1rem;
+    position: relative;
+    z-index: 10;
 }
 
 .btn-primary-hero {
