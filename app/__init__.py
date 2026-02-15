@@ -1,11 +1,15 @@
 from flask import Flask
-from config import Config
+from config import Config, ProductionConfig
 from .extensions import db, login_manager, bcrypt, csrf
 from .utils import register_template_utils
 from .models import User
+import os
 
 
-def create_app(config_class: type[Config] = Config) -> Flask:
+def create_app(config_class: type[Config] = None) -> Flask:
+    if config_class is None:
+        config_class = ProductionConfig if os.environ.get('FLASK_ENV') == 'production' else Config
+    
     app = Flask(__name__)
     app.config.from_object(config_class)
 

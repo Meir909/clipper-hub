@@ -19,3 +19,9 @@ class Config:
         for email in os.environ.get("ADMIN_EMAILS", "admin@clipper.io").split(",")
         if email.strip()
     }
+
+
+class ProductionConfig(Config):
+    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = 'Lax'
