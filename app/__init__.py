@@ -18,8 +18,10 @@ def create_app(config_class: type[Config] = None) -> Flask:
     configure_login_manager()
     register_template_utils(app)
 
-    with app.app_context():
-        db.create_all()
+    # Only create tables in development
+    if os.environ.get('FLASK_ENV') != 'production':
+        with app.app_context():
+            db.create_all()
 
     return app
 
