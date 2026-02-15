@@ -145,11 +145,13 @@ body {
     display: flex;
     align-items: center;
     width: 100%;
+    gap: 10px;
 }
 
 .password-container .form-control {
     flex: 1;
     margin-right: 0;
+    padding-right: 50px;
 }
 
 .password-field .toggle-visibility {
