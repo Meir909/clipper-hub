@@ -17,36 +17,40 @@
             </div>
             <div class="mb-3 password-field">
                 {{ form.password.label(class='form-label') }}
-                {{ form.password(class='form-control form-control-lg', autocomplete='new-password', id=form.password.id) }}
-                <button type="button"
-                        class="toggle-visibility"
-                        data-target="{{ form.password.id }}"
-                        aria-pressed="false"
-                        data-visible="false">
-                    <span class="visually-hidden">Show password</span>
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
-                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                        <path class="eye-slash" d="M4 4l16 16" />
-                    </svg>
-                </button>
+                <div class="password-container">
+                    {{ form.password(class='form-control form-control-lg', autocomplete='new-password', id=form.password.id) }}
+                    <button type="button"
+                            class="toggle-visibility toggle-center"
+                            data-target="{{ form.password.id }}"
+                            aria-pressed="false"
+                            data-visible="false">
+                        <span class="visually-hidden">Show password</span>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+                            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 6z" />
+                            <path class="eye-slash" d="M4 4l16 16" />
+                        </svg>
+                    </button>
+                </div>
                 <div class="form-text">Minimum 8 characters.</div>
             </div>
             <div class="mb-3 password-field">
                 {{ form.confirm_password.label(class='form-label') }}
-                {{ form.confirm_password(class='form-control form-control-lg', autocomplete='new-password', id=form.confirm_password.id) }}
-                <button type="button"
-                        class="toggle-visibility"
-                        data-target="{{ form.confirm_password.id }}"
-                        aria-pressed="false"
-                        data-visible="false">
-                    <span class="visually-hidden">Show password</span>
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
-                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                        <path class="eye-slash" d="M4 4l16 16" />
-                    </svg>
-                </button>
+                <div class="password-container">
+                    {{ form.confirm_password(class='form-control form-control-lg', autocomplete='new-password', id=form.confirm_password.id) }}
+                    <button type="button"
+                            class="toggle-visibility toggle-right"
+                            data-target="{{ form.confirm_password.id }}"
+                            aria-pressed="false"
+                            data-visible="false">
+                        <span class="visually-hidden">Show password</span>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+                            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 6z" />
+                            <path class="eye-slash" d="M4 4l16 16" />
+                        </svg>
+                    </button>
+                </div>
             </div>
             {{ form.submit(class='btn btn-primary w-100 btn-lg') }}
         </form>
