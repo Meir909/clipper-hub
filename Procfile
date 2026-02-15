@@ -1,1 +1,1 @@
-web: python migrate.py && gunicorn app:app
+web: python migrate.py && gunicorn wsgi:app
