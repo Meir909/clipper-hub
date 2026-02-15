@@ -48,3 +48,7 @@ def configure_login_manager() -> None:
     @login_manager.user_loader
     def load_user(user_id: str) -> User | None:
         return User.query.get(int(user_id))
+
+
+# Create app instance for gunicorn
+app = create_app()

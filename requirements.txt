@@ -5,3 +5,4 @@ flask-wtf==1.2.1
 wtforms[email]==3.1.2
 flask-bcrypt==1.0.1
 python-dotenv==1.0.1
+gunicorn==21.2.0
